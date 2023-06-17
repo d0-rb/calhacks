@@ -1,35 +1,128 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState, useEffect } from 'react'
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { green, purple, orange } from '@mui/material/colors';
+import pullData from './util/pullData';
+import { summarize, getWidgets, stripWidgetSize } from './util/summarize';
+import reply_email from './components/reply_email';
+import meetings from './components/meetings';
 import './App.css'
+import { Configuration, OpenAIApi } from "openai";
+
+const OPENAI_API_KEY = import.meta.env.VITE_OPENAI_API_KEY;
+console.log(OPENAI_API_KEY);
+
+const configuration = new Configuration({
+  apiKey: OPENAI_API_KEY,
+});
+const openai = new OpenAIApi(configuration);
+
+const WIDGET_MAPPINGS = {
+  reply_email: reply_email,
+  meetings: meetings,
+}
+
+for (const [widget, component] of Object.entries(WIDGET_MAPPINGS)) {
+  WIDGET_MAPPINGS[widget] = component(1);
+  WIDGET_MAPPINGS[`${widget}_large`] = component(2);
+  WIDGET_MAPPINGS[`${widget}_xlarge`] = component(3);
+}
+
+const theme = createTheme({
+  status: {
+    danger: orange[500],
+  },
+  palette: {
+    primary: {
+      main: purple[500],
+    },
+    secondary: {
+      main: green[500],
+    },
+    background: {
+      main: '#ffffff',
+    },
+  },
+});
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [components, setComponents] = useState([]);  // array of components
+
+  useEffect(() => {
+    async function prepareWidgets() {
+      const data = await pullData();
+      const [briefingSummary, widgets] = await Promise.all([summarize(data), getWidgets(data)]);
+
+      const layoutSuggestion = await openai.createChatCompletion({
+        model: "gpt-3.5-turbo-0613",
+        messages: [
+          {"role": "system", "content": "You are an assistant that designs widget layouts for a service that presents daily briefings to users based on their emails, calendar events, and more. Based on the user's data (emails, calendar events, etc.), you design a widget layout based on the most important items and things the user should know. You have access to a function to present the widgets that you call by passing the list of widgets. The order of the widgets is sorted by importance, with the most important widget first. You can also define whether to emphasize the widget or to make it large. Only include each widget type once, including variants. Do not include a widget and its large version at the same time. Each widget's normal version takes up 1 space, their large versions take up 2 spaces, and their xlarge versions take up 3 spaces. The maximum number of spaces is 12."},
+          {"role": "user", "content": `Here is a summary of everything I should know:\n${briefingSummary}\n\nLay out my daily briefing.`},
+        ],
+        functions: [
+          {
+            "function": "layout",
+            "description": "Lay out the daily briefing.",
+            "parameters": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": widgets,
+              },
+            },
+          }
+        ],
+        function_call: {
+          "name": "layout",
+        },
+      });
+
+      const layout = layoutSuggestion.choices[0].message.function_call.arguments;
+      console.log(layout);
+
+      const widgetComponents = layout.map((widget) => {
+        const WidgetComponent = WIDGET_MAPPINGS[widget];
+        const component = (
+          <Grid item xs={size * 4}>
+            <WidgetComponent { ...data[stripWidgetSize(widget)] } />
+          </Grid>
+        );
+
+        return component;
+      });
+
+      setComponents(widgetComponents);
+    }
+
+    prepareWidgets();
+  }, []);
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <ThemeProvider theme={theme}>
+      <Box
+        sx={{
+          width: '100%',
+          height: '100%',
+          // backgroundColor: 'background.main',
+        }}
+      >
+        <Container>
+          <Grid 
+            // direction="column"
+            justifyContent="flex-start"
+            alignItems="flex-start"
+            container
+            spacing={2}
+          >
+            {components}
+          </Grid>
+        </Container>
+      </Box>
+    </ThemeProvider>
   )
 }
 
-export default App
+export default App;
