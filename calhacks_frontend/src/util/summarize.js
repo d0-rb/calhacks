@@ -14,6 +14,7 @@ export async function summarize(data) {
             summary += `Suggested Response:\n${email['suggested-response']}\n`;
             summary += "------\n";
         });
+        summary += "======\n";
     }
 
     summary += "******\n";
@@ -29,14 +30,16 @@ export async function getWidgets(data) {
         widgets.push(`${key}_large`);
         widgets.push(`${key}_xlarge`);
     }
+
+    return widgets;
 }
 
-export async function stripWidgetSize(widgetName) {
+export function stripWidgetSize(widgetName) {
     if (widgetName.endsWith('_large')) {
-        return widgetName.slice(0, -6);
+        return [widgetName.slice(0, -6), 2];
     } else if (widgetName.endsWith('_xlarge')) {
-        return widgetName.slice(0, -7);
+        return [widgetName.slice(0, -7), 3];
     }
 
-    return widgetName;
+    return [widgetName, 1];
 }
