@@ -6,12 +6,12 @@ import Stack from '@mui/material/Stack';
 import { useTheme } from '@mui/material/styles';
 
 
-export default function email_reply(size) {
+export default function email_reply(size, borderRadius, elevation) {
     return ({ data }) => {
         const theme = useTheme();
         console.log(theme);
         return (
-            <Card sx={{ width: '100%', height: '100%' }} elevation={6}>
+            <Card sx={{ width: '100%', height: '100%', borderRadius }} elevation={elevation}>
                 <Stack direction="row" spacing={2}>
                     {(data.length > 0) ? <EmailCard { ...data[0] } /> : <EmailCards data={data} />}
                 </Stack>

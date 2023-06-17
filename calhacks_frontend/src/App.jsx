@@ -24,11 +24,13 @@ const WIDGET_MAPPINGS = {
   email_reply,
   meetings,
 }
+const BORDER_RADIUS = 8;
+const ELEVATION = 6;
 
 for (const [widget, component] of Object.entries(WIDGET_MAPPINGS)) {
-  WIDGET_MAPPINGS[widget] = component(1);
-  WIDGET_MAPPINGS[`${widget}_large`] = component(2);
-  WIDGET_MAPPINGS[`${widget}_xlarge`] = component(3);
+  WIDGET_MAPPINGS[widget] = component(1, BORDER_RADIUS, ELEVATION);
+  WIDGET_MAPPINGS[`${widget}_large`] = component(2, BORDER_RADIUS, ELEVATION);
+  WIDGET_MAPPINGS[`${widget}_xlarge`] = component(3, BORDER_RADIUS, ELEVATION);
 }
 
 const theme = createTheme({
