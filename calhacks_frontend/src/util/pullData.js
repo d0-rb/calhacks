@@ -8,7 +8,7 @@ export default async function pullData() {
                 "subject": "Re: Your application",
                 "body": "Hi, we are pleased to inform you that you have been accepted to CalHacks! Please reply to this email with your shirt size and dietary restrictions. We look forward to seeing you at the event!",
                 "summary": "You have been accepted to CalHacks!",
-                "suggested-response": "Thank you so much! I am so excited to attend CalHacks! My shirt size is M and I am vegetarian."
+                "suggested_response": "Thank you so much! I am so excited to attend CalHacks! My shirt size is M and I am vegetarian."
             }
         ],
         "meetings": [
@@ -68,7 +68,7 @@ export default async function pullData() {
                 "commute": "You should leave now to arrive at your meeting on time."
             },
             {
-                "to-do": [
+                "to_do": [
                     "You have a meeting with your manager at 12:00 PM.",
                     "publish cr 1.0.0",
                     "send email to manager",

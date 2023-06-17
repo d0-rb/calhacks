@@ -7,13 +7,13 @@ import { useTheme } from '@mui/material/styles';
 
 
 export default function email_reply(size) {
-    return (props) => {
+    return ({ data }) => {
         const theme = useTheme();
         console.log(theme);
         return (
             <Card sx={{ width: '100%', height: '100%' }} elevation={6}>
                 <Stack direction="row" spacing={2}>
-                    {}
+                    {(props.data.length > 0) ? <EmailCard { ...data } /> :  }
                 </Stack>
             </Card>
         )
@@ -21,6 +21,11 @@ export default function email_reply(size) {
 }
 
 
-function email_card({}) {
+function EmailCards({ data }) {
+    
+}
+
+
+function EmailCard({ from, subject, body, summary, suggested_response }) {
 
 }
