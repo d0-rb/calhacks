@@ -12,20 +12,57 @@ export default async function pullData() {
             }
         ],
         "meetings": [
-            {
-                "name": "CalHacks",
-                "location": "Pauley Ballroom",
-                "time": "10:00 AM",
-                "date": "November 2nd, 2018",
-                "summary": "CalHacks is the world's largest collegiate hackathon, hosted at UC Berkeley. We bring together hackers from around the world to tackle problems using technology. This year, we are expecting over 2000 hackers to attend, and we are looking forward to seeing you there!"
+            {    
+                "meetings_today": [
+                    {
+                        "date": "Monday, November 5th, 2018",
+                    },
+                    {
+                        "name": "CalHacks",
+                        "location": "Pauley Ballroom",
+                        "time": "10:00 AM",
+                    }, 
+                    {
+                        "name": "Lunch with Manager",
+                        "location": "Cafe 3",
+                        "time": "12:00 PM",
+                    },
+                ]
             }, 
             {
-                "name": "Lunch with Manager",
-                "location": "Cafe 3",
-                "time": "12:00 PM",
-                "date": "November 2nd, 2018",
-                "summary": "We are pleased to invite you to lunch with your manager. We will be discussing your performance over the past quarter, and we look forward to seeing you there!"
-            },
+                "meetings_tomorrow": [
+                    {
+                        "date": "Tuesday, November 6th, 2018",
+                    },
+                    {
+                        "name": "CalHacks",
+                        "location": "Pauley Ballroom",
+                        "time": "10:00 AM",
+                    }, 
+                    {
+                        "name": "Lunch with Manager",
+                        "location": "Cafe 3",
+                        "time": "12:00 PM",
+                    },
+                ]
+            }, 
+            {
+                "meetings_this_week": [
+                    {
+                        "week": "Week of November 5th, 2018",
+                    }, 
+                    {
+                        "name": "CalHacks",
+                        "location": "Pauley Ballroom",
+                        "time": "10:00 AM",
+                    }, 
+                    {
+                        "name": "Lunch with Manager",
+                        "location": "Cafe 3",
+                        "time": "12:00 PM",
+                    },
+                ]
+            }
         ],
         "news": [
             {
