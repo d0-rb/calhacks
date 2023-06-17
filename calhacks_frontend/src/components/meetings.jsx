@@ -28,7 +28,7 @@ import { Card, CardContent, Typography } from '@mui/material';
 
 // size is the size of the component that we are trying to display
 // not actually the component, just the function that returns a component that returns html stuff
-export default function Meetings(size) {
+export default function meetings(size) {
     return (props) => {
         return (
             <Card sx={{ minWidth: 275 * size }}>

@@ -94,7 +94,7 @@ function App() {
         const WidgetComponent = WIDGET_MAPPINGS[widget];
         const [widgetName, size] = stripWidgetSize(widget);
         const component = (
-          <Grid item xs={size * 4} key={widget}>
+          <Grid item xs={size * 4} key={widget} sx={{ width: '100%', height: '16rem' }}>
             <WidgetComponent { ...data[widgetName] } />
           </Grid>
         );
@@ -112,14 +112,13 @@ function App() {
     <ThemeProvider theme={theme}>
       <Box
         sx={{
-          width: '100%',
+          width: '100vw',
           height: '100%',
           // backgroundColor: 'background.main',
         }}
       >
         <Container>
           <Grid 
-            // direction="column"
             justifyContent="flex-start"
             alignItems="flex-start"
             container
