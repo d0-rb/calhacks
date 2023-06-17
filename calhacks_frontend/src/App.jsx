@@ -24,8 +24,8 @@ const WIDGET_MAPPINGS = {
   email_reply,
   meetings,
 }
-const BORDER_RADIUS = 8;
-const ELEVATION = 6;
+const BORDER_RADIUS = 6;
+const ELEVATION = 8;
 
 for (const [widget, component] of Object.entries(WIDGET_MAPPINGS)) {
   WIDGET_MAPPINGS[widget] = component(1, BORDER_RADIUS, ELEVATION);

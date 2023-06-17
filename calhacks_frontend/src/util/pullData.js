@@ -9,7 +9,21 @@ export default async function pullData() {
                 "body": "Hi, we are pleased to inform you that you have been accepted to CalHacks! Please reply to this email with your shirt size and dietary restrictions. We look forward to seeing you at the event!",
                 "summary": "You have been accepted to CalHacks!",
                 "suggested_response": "Thank you so much! I am so excited to attend CalHacks! My shirt size is M and I am vegetarian."
-            }
+            },
+            {
+                "from": "Jane Doe",
+                "subject": "Are you going to CalHacks?",
+                "body": "Hey, are you going to CalHacks? I am looking for a team to join and I was wondering if you would be interested in working together.",
+                "summary": "Jane Doe is looking for a team to join.",
+                "suggested_response": "Yes, I am going to CalHacks! I would love to work together. What are you interested in working on?"
+            },
+            {
+                "from": "Alex Smith",
+                "subject": "Your Item on Facebook Marketplace",
+                "body": "Hi, I am interested in your item on Facebook Marketplace. Is it still available?",
+                "summary": "Alex Smith is interested in your item on Facebook Marketplace.",
+                "suggested_response": "Yes, it is still available. When would you like to meet?"
+            },
         ],
         "meetings": [
             {    
