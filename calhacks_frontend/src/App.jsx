@@ -96,7 +96,7 @@ function App() {
         const [widgetName, size] = stripWidgetSize(widget);
         const component = (
           <Grid item xs={size * 4} key={widget} sx={{ width: '100%', height: '16rem' }}>
-            <WidgetComponent { ...data[widgetName] } />
+            <WidgetComponent data={data[widgetName]} />
           </Grid>
         );
 
