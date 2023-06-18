@@ -1,13 +1,9 @@
-<<<<<<< HEAD
-import { Card, CardContent, Stack, Typography } from '@mui/material';
-=======
 import { useEffect, useState } from 'react';
 import { Box, Card, CardContent, IconButton, Stack, Typography, Grid } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import './meetings.css'
->>>>>>> henry-frontend
 
 /*
     -------------------------------------------------
