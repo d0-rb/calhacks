@@ -19,5 +19,10 @@ def query(text: str = Query(...)):
     res = chatbot(text)
     return {"text": res}
 
+@app.get("/categories")
+def categories():
+    pass
+    
+
 # run this for local testing
 # uvicorn main:app --reload
