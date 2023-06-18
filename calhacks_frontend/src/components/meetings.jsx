@@ -73,20 +73,28 @@ function GetMeetings(data) {
 function mapBody(body) {
     return body.map((content) => {
         return (
-            <Stack direction="row">
+            <Stack direction="row" alignContent="center">
                 <Stack direction="column">
-                    <Typography variant="body2" align="right" noWrap={true}>
-                        {content.time} |
-                    </Typography>
-                    <Typography variant="caption" align="right" noWrap={true}>
-                        {content.location} |
-                    </Typography>
+                    {getTimeAndLocation(content.time, content.location)}
                 </Stack>
-                <Typography variant="body2" align="left" noWrap={true}>
-                    {content.name}
+                <Typography variant="body1" align="left" noWrap={true} marginTop={"3%"}>
+                    {"|  " + content.name}
                 </Typography>
             </Stack>
         );
     });
+}
+
+function getTimeAndLocation(time, location) {
+    return (
+        <>
+            <Typography variant="body2" align="right" noWrap={true}>
+                {time}
+            </Typography>
+            <Typography variant="caption" align="right" noWrap={true}>
+                {location}
+            </Typography>
+        </>
+    )
 }
 
