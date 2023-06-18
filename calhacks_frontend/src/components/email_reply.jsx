@@ -61,7 +61,7 @@ function EmailCards({ data, numEmails, size }) {
             }
         } else if (size === 2) {
             if (page === 1) {
-                marginTop = '-27.6%';
+                marginTop = '-31%';
             } else if (page === 2) {
                 marginTop = '-25%';
             } else {
