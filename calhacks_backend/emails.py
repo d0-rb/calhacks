@@ -1,4 +1,9 @@
 from __future__ import print_function
+import pandas as pd
+from datetime import datetime
+from dateutil import parser
+from pinecone_upload import embed_and_upsert
+
 
 import os.path
 
@@ -7,13 +12,20 @@ from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
-
 import base64
+import re
+
+
 
 # If modifying these scopes, delete the file token.json.
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
+SAVE_PATH = '/Users/sunnyjay/Documents/vscode/Hackathon/calhacks/calhacks_backend/emails.csv'
 
-def get_emails():
+def clean(body):
+    cleanedBody = re.sub(r'http\S+', '<link>', body.replace('\r', '').replace('\n', ' ').replace('\t', ''))
+    return cleanedBody
+
+def get_emails(num):
     emails = []
     """Shows basic usage of the Gmail API.
     Lists the user's Gmail labels.
@@ -51,13 +63,14 @@ def get_emails():
         # Print the email subjects
         print('Email Subjects:')
         print(len(messages))
-        for message in messages[:10]:
+        for message in messages[:num]:
             msg = service.users().messages().get(userId='me', id=message['id'], format='full').execute()
             payload = msg['payload']
             headers = payload['headers']
-            subject = None
-            sender = None
-            date = None
+            subject = 'No Content'
+            sender = 'No Content'
+            date = 'No Content'
+            body = 'No Content'
 
             if 'parts' in payload:
                 for part in payload['parts']:
@@ -76,12 +89,27 @@ def get_emails():
                     sender = header['value']
                 if header['name'] == 'Date':
                     date = header['value']  
+            
+            def parse_date(date_string):
+                print(date_string)
+                try:
+                    if date_string.endswith(')'):
+                        date_string_without_utc = date_string[:-12]
+                        parsed_date = datetime.strptime(date_string_without_utc, '%a, %d %b %Y %H:%M:%S')    
+                        return parsed_date
+                    else:
+                        date_string_without_utc = date_string[:-6]
+                        parsed_date = datetime.strptime(date_string_without_utc, '%a, %d %b %Y %H:%M:%S')
+                        return parsed_date
+                except ValueError:
+                    print (date_string)
+                    return None
 
             emails.append({
                 'subject': subject,
                 'sender': sender,
-                'date': date,
-                'body': body
+                'date': parser.parse(date),
+                'body': clean(body)
             })
 
     except HttpError as error:
@@ -90,3 +118,41 @@ def get_emails():
 
     return emails
 
+
+def update_csv():
+    df = pd.read_csv(SAVE_PATH)
+    # get the latest date in the csv
+    latest_date = parser.parse(df['date'][0])
+    print(latest_date)
+
+    # get the latest 10 emails
+    emails = get_emails(10)
+    sorted_lst = sorted(emails, key=lambda k: k['date'], reverse=True)
+    
+    # find the oldest new email that is newer than the latest email in the csv
+    new_rows = []
+    for email in sorted_lst:
+        print(email['date'])
+        if email['date'] > latest_date:
+            new_rows.append(email)
+
+    if new_rows:
+        new_df = pd.DataFrame(new_rows)
+        df = pd.concat([new_df,df], ignore_index=True)
+        df.to_csv(SAVE_PATH, index=False)
+
+    return new_rows
+
+def init_csv():
+    emails = get_emails(100)
+    df = pd.DataFrame(emails)
+    df.to_csv(SAVE_PATH, index=False)
+
+def update_pinecone():
+    new_rows = update_csv()
+    print(len(new_rows))
+    df = pd.DataFrame(new_rows)
+    embed_and_upsert(df)
+
+# init_csv()
+update_pinecone()
