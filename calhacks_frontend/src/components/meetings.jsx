@@ -1,13 +1,9 @@
-<<<<<<< HEAD
-import { Card, CardContent, Stack, Typography } from '@mui/material';
-=======
 import { useEffect, useState } from 'react';
 import { Box, Card, CardContent, IconButton, Stack, Typography, Grid } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import './meetings.css'
->>>>>>> henry-frontend
 
 /*
     -------------------------------------------------
@@ -92,21 +88,32 @@ export default function meetings(size, borderRadius, elevation) {
             }
         }
 
+        const calendars = []
+        const marginTop = size === 1 ? '-81.5%' : (size === 2 ? '-40%' : '-26.4%');
+        for (let i = 0; i < size; i++) {
+            calendars.push(
+                <Stack className={transitionClass} sx={{ width: `calc(100% / ${size})`, height: "300%", borderRadius, marginTop }} direction="column" spacing={0}>
+                    <MeetingCard setIdx={setCurrentIdx} idx={prevIdx - 1} relIdx={i} size={size} data={dataArrayByDay} />
+                    <MeetingCard setIdx={setCurrentIdx} idx={prevIdx } relIdx={i} size={size} data={dataArrayByDay} />
+                    <MeetingCard setIdx={setCurrentIdx} idx={prevIdx + 1} relIdx={i} size={size} data={dataArrayByDay} />
+                </Stack>
+            );
+        }
+
         return (
-          <Card sx={{ width: "100%", height: "100%", borderRadius }} elevation={elevation}>
-            <Stack className={transitionClass} sx={{ width: "100%", height: "300%", borderRadius, marginTop: '-81.5%' }} direction="column" spacing={0}>
-                <MeetingCard setIdx={setCurrentIdx} idx={prevIdx - 1} data={dataArrayByDay} />
-                <MeetingCard setIdx={setCurrentIdx} idx={prevIdx} data={dataArrayByDay} />
-                <MeetingCard setIdx={setCurrentIdx} idx={prevIdx + 1} data={dataArrayByDay} />
-            </Stack>
-          </Card>
+            <Card sx={{ width: "100%", height: "100%", borderRadius }} elevation={elevation}>
+                <Stack sx={{ width: "100%", height: "100%" }} direction="row" spacing={0}>
+                    {calendars}
+                </Stack>
+            </Card>
         );
     }
 }
 
-function MeetingCard({ setIdx, idx, data }) {
+function MeetingCard({ setIdx, idx, data, relIdx, size }) {
     const theme = useTheme();
     
+    idx += relIdx;
     if (idx < 0 || idx >= data.length) {
         return (
             <Box sx={{ width: '100%', height: '100%' }} />
@@ -116,19 +123,19 @@ function MeetingCard({ setIdx, idx, data }) {
     const date = data[idx].time;
 
     return (
-        <Box sx={{ position: 'relative', width: '100%', height: '100%' }}>
+        <Box sx={{ position: 'relative', width: '100%', height: '100%' }} overflow="auto">
             <Typography sx={{ width: '100%', height: '10%', align: 'center', fontSize: '1.5rem', fontWeight: 'bold', marginTop: '4%' }}>
                 {date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
             </Typography>
-            {idx > 0 ?
-                <IconButton sx={{ position: 'absolute', top: '4%', right: '4%', float: 'right', padding: '3%' }} aria-label="previous" onClick={() => {setIdx(idx - 1)}}>
-                    <ExpandLessIcon />
+            {(relIdx === size - 1) && idx > 0 ?
+                <IconButton sx={{ position: 'absolute', top: '4%', right: '4%', float: 'right', padding: '3%' }} aria-label="previous" onClick={() => {setIdx(idx - relIdx - 1)}}>
+                    <ExpandLessIcon color="primary" />
                 </IconButton>
                 : null
             }
-            {idx < data.length - 1 ?
-                <IconButton sx={{ position: 'absolute', bottom: '4%', right: '4%', float: 'right', padding: '3%' }} aria-label="next" onClick={() => {setIdx(idx + 1)}}>
-                    <ExpandMoreIcon />
+            {(relIdx === size - 1) && idx < data.length - 1 ?
+                <IconButton sx={{ position: 'absolute', bottom: '4%', right: '4%', float: 'right', padding: '3%' }} aria-label="next" onClick={() => {setIdx(idx - relIdx + 1)}}>
+                    <ExpandMoreIcon color="primary" />
                 </IconButton>
                 : null
             }
@@ -139,7 +146,7 @@ function MeetingCard({ setIdx, idx, data }) {
                     return (
                         <>
                             <Grid item xs={4.5}>
-                                <Typography align="right" variant="h5" sx={{ width: '100%', height: '100%' }}>
+                                <Typography align="right" color="secondary" variant="h5" sx={{ width: '100%', height: '100%' }}>
                                     {eventTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric' })}
                                 </Typography>
                             </Grid>
