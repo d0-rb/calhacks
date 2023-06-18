@@ -99,8 +99,8 @@ function App() {
       // });
 
       // const rawLayout = JSON.parse(layoutSuggestion.data.choices[0].message.function_call.arguments).layout;
-      const rawLayout = ["email_reply", "meetings"];  // mockFragment1
-      // const rawLayout = ["email_reply", "meetings", "finance", "shopping", "travel"];  // mock1
+      // const rawLayout = ["email_reply", "meetings"];  // mockFragment1
+      const rawLayout = ["email_reply", "meetings", "finance_large", "shopping", "travel"];  // mock1
       // const rawLayout = ["email_reply_large", "social_media", "AWS", "shopping"];  // mock2
       let layout = [];
 

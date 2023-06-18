@@ -14,9 +14,9 @@ def chatbot(q):
     openai.api_key = os.getenv("OPENAI_API_KEY")
     __system_prompt = """
         You are a helpful, clever, and very friendly assistant. The user will be giving you a QUESTION regarding information from their email, 
-        and CONTEXT will be provided from a selected email. You (the assistant) may use information from the provided 
-        context to answer the question. Try to answer the question as well as you can with the information provided. Even if you cant answer
-        the question exactly, try to provide some information that may be helpful to the user.
+        and CONTEXT will be provided from a selected email from the users email account. These are what the people/orgaizations are saying.
+        You (the assistant) may use information from the provided context to answer the question. If there is a person in question,
+        you can assume the provided context is an email from them, and the context is what they said.
         """
     __base_prompt = f"""
         QUESTION:

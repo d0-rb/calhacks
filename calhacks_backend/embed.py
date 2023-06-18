@@ -5,7 +5,7 @@ import json
 import datetime as dt
 from dateutil import parser
 
-openai.api_key = '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'
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 def functionCompletion(prompt, functions, func_call= "get_category_and_rating", model='gpt-3.5-turbo-0613'):
     messages = [{"role": "user", "content": prompt}]
@@ -89,7 +89,7 @@ def initCategorizeEmails(categories, emails, model='gpt-4'):
     catMap = {categories[i]: 1 for i in range(len(categories))}
     emailMap = {}
 
-    for i,email in enumerate(emails[:2]):
+    for i,email in enumerate(emails):
         if(spamClassification(email)):
             catMap['Spam'] += 1
             if('Spam' in emailMap):
@@ -141,12 +141,10 @@ def assignCats(emails, currentCats=None):
     if(currentCats == None):
         categories = ['Spam', 'Emails to reply to', 'Financial/Invoices', "Social Media/Networking", "Meetings/Events", "Weather", "News", "Suggestions (To-do lists, traffic updates, etc)", "Security/Privacy"]
 
-    emails = pd.read_csv("emails.csv")
+    emails = pd.read_csv(emails)
     emails['date'] = emails['date'].apply(lambda x: parser.parse(x))
     emails['epoch_time'] = emails['date'].apply(lambda x: int(x.timestamp()))
 
     emailMap, finalCats, colorList = initCategorizeEmails(categories, emails.body)
     jsonOut = generateJson(emailMap, colorList, finalCats, emails)
     return jsonOut, finalCats
-
-assignCats(None)
