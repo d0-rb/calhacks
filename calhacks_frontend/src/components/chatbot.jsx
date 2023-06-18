@@ -15,84 +15,34 @@ import DialogActions from "@mui/material/DialogActions";
 
 export default function chatbot(size, borderRadius, elevation) {
     return ({ data }) => {
-        const [showEmail, setShowEmail] = React.useState(null);
         return (
             <Card sx={{ width: "100%", height: "100%", borderRadius}} elevation={elevation}>
-                {!showEmail ? <ChatInformation size={size} answer={data.answer} borderRadius={borderRadius} elevation={elevation} setShowEmail={setShowEmail}/> : null}
-                {showEmail ? <DisplayEmail size={size} from={data.emails[0].sender} subject={data.emails[0].subject} body={data.emails[0].body} setShowEmail={setShowEmail} /> : null}
+                <ChatInformation size={size} answer={data.answer} emails={data.emails} borderRadius={borderRadius} elevation={elevation}/>
             </Card>
         );
     }
 };
 
-function DisplayEmail({ from, subject, body, setShowEmail }) {
-    const theme = useTheme();
-
-    return (
-        <>
-            <Stack sx={{ zIndex: 1, position: 'relative', top: '0', left: '0'}} className="EmailDisplay">
-                <Box sx={{ paddingTop: '4%', paddingLeft: '4%', paddingRight: '4%'}}>
-                    <Typography sx={{ float: 'left' }} variant="h5" align="left" noWrap={true}>
-                        {subject}
-                    </Typography>
-                    <IconButton sx={{ float: 'right' }} aria-label="close" onClick={() => {setShowEmail(null)}}>
-                        <CloseIcon />
-                    </IconButton>
-                </Box>
-                <Typography sx={{ paddingLeft: '4%', paddingRight: '4%' }} variant="body1" align="left" noWrap={true} gutterBottom>
-                    From: {from}
-                </Typography>
-                <Box sx={{ marginLeft: '4%', marginRight: '4%', marginTop: '2%', marginBottom: '4%', maxHeight: '40%', overflow: 'auto' }} elevation={4}>
-                    <Typography variant="body2" align="left" gutterBottom>
-                        {body}
-                    </Typography>
-                </Box>
-            </Stack>
-        </>
-    );
-}
-
-function ChatInformation({size, answer, borderRadius, elevation, setShowEmail}) {
+function ChatInformation({ size, answer, emails, borderRadius, elevation }) {
     const [sent, setSent] = React.useState(false);
     const [open, setOpen] = React.useState(false);
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-    console.log(size);
-    //{ paddingTop: '15%', paddingBottom: '15%' }
+    
     return (
-        <div>
-            {size == 1 ? 
-                <Box align="right" sx={{ paddingTop: '3%', paddingBottom: '2%', paddingRight:'4%'}}>
-                    <IconButton variant="outlined" onClick={handleClickOpen}>
-                        <LaunchIcon/>
-                    </IconButton>
-                    <CustomizedDialogs title={"ChatBot Response"} body={answer} open={open} setOpen={setOpen}/> 
-                </Box>
-                : null
-            }
-            <Box sx={{ paddingTop: '3%', paddingBottom: '3%', paddingRight:'5%', height:140, wordBreak: 'break-all'}}>
-                <Stack sx={{ height: '100%' }} direction="row" spacing={1}>
-                    <Avatar sx={{ marginLeft: '3%', marginRight: '3%'}}>B</Avatar>
-                    <Typography variant="body1" align="left" sx={{
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            display: "-webkit-box",
-                            WebkitBoxOrient: "vertical",
-                        }}>
-                        {answer}
-                    </Typography>
-                </Stack>
+        <Stack sx={{ padding: '5%', height: '90%', width: '90%' }} spacing={1}>
+            <TextField label="Email Search" disabled={sent} type="search" variant="standard" />
+            <Box overflow="auto">
+                <Typography variant="body1" align="left">
+                    {answer}
+                </Typography>
+                <IconButton sx={{ float: 'left' }} aria-label="open-sources" onClick={() => {setOpen(true)}}>
+                    <LaunchIcon color="primary" />
+                </IconButton>
+                <Typography sx={{ float: 'left', paddingTop: '2.5%', paddingLeft: '2%' }} color="primary" variant="body1" align="left">
+                    Sources
+                </Typography>
+                <CustomizedDialogs title={"Email Sources"} emails={emails} open={open} setOpen={setOpen}/> 
             </Box>
-            <Stack direction="row" spacing={1} sx={{ height: '100%', marginLeft: '5%'}}>
-                <TextField sx={{ width: '100%', marginTop: '3%' }} label="Send Response" disabled={sent} variant="filled" multiline rows={1} />
-                <Box sx={{ aspectRatio: 1, paddingTop: '10%' }}>
-                    <IconButton aria-label="send" onClick={() => {setSent(true); setShowEmail(true);}}>
-                        <SendIcon color="primary" />
-                    </IconButton>
-                </Box>
-            </Stack>
-        </div>
+        </Stack>
     );
 }
 
@@ -125,7 +75,7 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-function CustomizedDialogs({title, body, open, setOpen}) {
+function CustomizedDialogs({title, emails, open, setOpen}) {
     const handleClose = () => {
         setOpen(false);
     };
@@ -136,20 +86,26 @@ function CustomizedDialogs({title, body, open, setOpen}) {
                 onClose={handleClose}
                 aria-labelledby="customized-dialog-title"
                 open={open}
+                sx={{ width: '100%' }}
             >
                 <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
                     {title}
                 </BootstrapDialogTitle>
                 <DialogContent dividers>
-                    <Typography gutterBottom>
-                        {body}
-                    </Typography>
+                    {emails.map((email) => (
+                        <>
+                            <Typography variant="h6" color="primary" noWrap={true}>
+                                {email.subject}
+                            </Typography>
+                            <Typography noWrap={true}>
+                                {email.sender}
+                            </Typography>
+                            <Typography gutterBottom noWrap={true}>
+                                {(new Date(Date.parse(email.date))).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' })}
+                            </Typography>
+                        </>
+                    ))}
                 </DialogContent>
-                <DialogActions>
-                    <Button autoFocus onClick={handleClose}>
-                        Save changes
-                    </Button>
-                </DialogActions>
             </BootstrapDialog>
         </div>
     );
