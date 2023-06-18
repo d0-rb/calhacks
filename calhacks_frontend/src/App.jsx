@@ -9,6 +9,7 @@ import pullData from './util/pullData';
 import { summarize, getWidgets, stripWidgetSize } from './util/summarize';
 import email_reply from './components/email_reply';
 import meetings from './components/meetings';
+// import chatbot from './components/chatbot';
 import './App.css'
 import { Configuration, OpenAIApi } from "openai";
 
