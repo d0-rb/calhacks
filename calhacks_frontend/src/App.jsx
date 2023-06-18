@@ -10,6 +10,7 @@ import { summarize, getWidgets, stripWidgetSize } from './util/summarize';
 import email_reply from './components/email_reply';
 import meetings from './components/meetings';
 import chatbot from './components/chatbot';
+import social_media from './components/social_media';
 import './App.css'
 import { Configuration, OpenAIApi } from "openai";
 
@@ -25,6 +26,7 @@ const WIDGET_MAPPINGS = {
   email_reply,
   meetings,
   chatbot,
+  social_media,
 }
 const BORDER_RADIUS = 6;
 const ELEVATION = 8;
@@ -92,7 +94,7 @@ function App() {
       // });
 
       // const layout = JSON.parse(layoutSuggestion.data.choices[0].message.function_call.arguments).layout;
-      const layout = ["email_reply_large", "meetings", "chatbot"];
+      const layout = ["email_reply_large", "meetings", "chatbot", "social_media_large"];
       console.log(layout);
 
       const widgetComponents = layout.map((widget) => {
