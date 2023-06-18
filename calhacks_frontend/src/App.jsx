@@ -71,7 +71,7 @@ function App() {
       // const layoutSuggestion = await openai.createChatCompletion({
       //   model: "gpt-3.5-turbo-0613",
       //   messages: [
-      //     {"role": "system", "content": "You are an assistant that designs widget layouts for a service that presents daily briefings to users based on their emails, calendar events, and more. Based on the user's data (emails, calendar events, etc.), you design a widget layout based on the most important items and things the user should know. You have access to a function to present the widgets that you call by passing the list of widgets. The order of the widgets is sorted by importance, with the most important widget first. You can also define the size of a widget; a larger widget for more important items is probably a good idea. Only include each widget type once, including variants. Do not include a widget and its large version at the same time, though not all widgets have to be included. Each widget's normal version takes up 1 space, their large versions take up 2 spaces, and their xlarge versions take up 3 spaces. The maximum number of spaces is 8, though if you use 6 or less then it will be presented in a smaller form."},
+      //     {"role": "system", "content": "You are an assistant that designs widget layouts for a service that presents daily briefings to users based on their emails, calendar events, and more. Based on the user's data (emails, calendar events, etc.), you design a widget layout based on the most important items and things the user should know. You have access to a function to present the widgets that you call by passing the list of widgets. The order of the widgets is sorted by importance, with the most important widget first. You can also define the size of a widget; a larger widget for more important items is probably a good idea. Only include each widget type once, including variants. Do not include a widget and its large version at the same time, though not all widgets have to be included. Each widget's normal version takes up 1 space, their large versions take up 2 spaces, and their xlarge versions take up 3 spaces. The maximum number of spaces is 8, though if you use 6 or less then it will be presented in a smaller form. Try not to use too many xlarges unless it is very important, as they take up a lot of space."},
       //     {"role": "user", "content": `Here is a summary of everything I should know:\n${briefingSummary}\n\nLay out my daily briefing.`},
       //   ],
       //   functions: [
@@ -98,7 +98,7 @@ function App() {
       //   },
       // });
 
-      // const layout = JSON.parse(layoutSuggestion.data.choices[0].message.function_call.arguments).layout;
+      // const rawLayout = JSON.parse(layoutSuggestion.data.choices[0].message.function_call.arguments).layout;
       const rawLayout = ["email_reply", "finance", "meetings", "travel", "shopping"];
       let layout = [];
 
@@ -141,10 +141,13 @@ function App() {
         if ((chatbotUsed && curSpace > 8) || (!chatbotUsed && curSpace > 7)) {
           if (widget.endsWith('_large')) {
             curSpace -= 2;
+            currentX -= 2;
           } else if (widget.endsWith('_xlarge')) {
             curSpace -= 3;
+            currentX -= 3;
           } else {
             curSpace -= 1;
+            currentX -= 1;
           }
 
           break;
@@ -250,7 +253,7 @@ function App() {
           <Stack sx={{ paddingBottom: '2rem' }} direction="row" alignItems="center" justifyContent="center" spacing={2}>
             logo goes here
             <Typography variant="h1">
-              Daily Briefing
+              Good afternoon, Henry
             </Typography>
           </Stack>
           <Grid 
@@ -263,6 +266,25 @@ function App() {
             {components}
           </Grid>
         </Container>
+      </Box>
+      <Box
+        sx={{
+          position: 'absolute',
+          bottom: '0',
+          left: '0',
+          width: '100%',
+          height: '100%',
+          backgroundColor: 'rgb(16, 16, 32)',
+          zIndex: 1000,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+        className={components.length > 0 ? 'fadeOut' : ''}
+      >
+        <Typography variant="h3" className="fadeIn" sx={{ color: 'white' }}>
+          Preparing your personalized dashboard...
+        </Typography>
       </Box>
     </ThemeProvider>
   )

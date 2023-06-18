@@ -1,6 +1,6 @@
 
 
-// regular size dashboard: regular reply-email, regular meetings, 3 categories
+// reply-email, meetings, 3 categories
 export const mock1 = {
     "email_reply": [
         {
@@ -59,17 +59,17 @@ export const mock1 = {
         {
             "name": "CalHacks",
             "location": "Pauley Ballroom",
-            "time": 1541442340,
+            "time": 1687190400,
         }, 
         {
             "name": "Lunch with Manager",
             "location": "Cafe 3",
-            "time": 1541551998,
+            "time": 1687291200,
         },
         {
             "name": "All Hands Meeting",
             "location": "Meeting Room 3.202",
-            "time": 1541561998,
+            "time": 1687298400,
         },
     ],
     "shopping": {
@@ -129,6 +129,10 @@ export const mock1 = {
 }
 
 export const mock2 = {
+
+}
+
+export const mockn = {
     "email_reply": [
         {
             "from": "Manager",
