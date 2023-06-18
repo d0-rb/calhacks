@@ -78,20 +78,17 @@ export default async function pullData() {
                 ]
             }
         ],
-        "chatbot": [
-            {
-                "message": "Hi, I am your personal assistant. How can I help you today?",
-            },
-            {
-                "message": "I am looking for a team to join.",
-            },
-            {
-                "message": "I can help you with that. Here are some teams that are looking for members:",
-            },
-            {
-                "message": "Team 1",
-            },
-        ],
+        "chatbot": {
+            "answer": "These are the emails that pertain to your query.", 
+            'emails': [ 
+                { 
+                    "sender": "calhacks@gmail.com" , 
+                    'subject': "help",
+                    'body': "you have 28 hours to submit the project", 
+                    'date': "6/17/23",
+                }
+            ]
+        },
         "news": [
             {
                 "title": "CalHacks 5.0",
