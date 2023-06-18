@@ -37,7 +37,7 @@ function ChatInformation({ size, answer, emails, borderRadius, elevation }) {
                 <IconButton sx={{ float: 'left' }} aria-label="open-sources" onClick={() => {setOpen(true)}}>
                     <LaunchIcon color="primary" />
                 </IconButton>
-                <Typography sx={{ float: 'left', paddingTop: '2.5%', paddingLeft: '2%' }} color="primary" variant="body1" align="left">
+                <Typography sx={{ float: 'left', paddingTop: (size === 1 ? "3%" : (size === 2 ? "1.5%" : "1%")), paddingLeft: '2%' }} color="primary" variant="body1" align="left">
                     Sources
                 </Typography>
                 <CustomizedDialogs title={"Email Sources"} emails={emails} open={open} setOpen={setOpen}/> 

@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
+import Stack from '@mui/material/Stack';
 import { green, purple, orange } from '@mui/material/colors';
 import pullData from './util/pullData';
 import { summarize, getWidgets, stripWidgetSize } from './util/summarize';
@@ -14,6 +15,7 @@ import social_media from './components/social_media';
 import CategorizedEmails from './components/CategorizedEmails';
 import './App.css'
 import { Configuration, OpenAIApi } from "openai";
+import { Typography } from '@mui/material';
 
 const OPENAI_API_KEY = import.meta.env.VITE_OPENAI_API_KEY;
 console.log(OPENAI_API_KEY);
@@ -59,6 +61,7 @@ const theme = createTheme({
 
 function App() {
   const [components, setComponents] = useState([]);  // array of components
+  const [extended, setExtended] = useState(false);  // whether to use normal or extended number of widgets
 
   useEffect(() => {
     async function prepareWidgets() {
@@ -96,7 +99,116 @@ function App() {
       // });
 
       // const layout = JSON.parse(layoutSuggestion.data.choices[0].message.function_call.arguments).layout;
-      const layout = ["email_reply_large", "meetings", "chatbot", "finance"];
+      const rawLayout = ["email_reply_xlarge", "finance", "meetings_large", "meetings_large"];
+      let layout = [];
+
+      let totalSpace = 0;
+
+      for (const widget of rawLayout) {
+        if (widget.endsWith('_large')) {
+          totalSpace += 2;
+        } else if (widget.endsWith('_xlarge')) {
+          totalSpace += 3;
+        } else {
+          totalSpace += 1;
+        }
+      }
+
+      const curExtended = totalSpace > 5;
+      setExtended(curExtended);
+
+      console.log(rawLayout);
+      let currentX = 0;
+      let chatbotUsed = false;
+      let widthLimit = curExtended ? 4 : 3;
+      let curSpace = 0;
+      for (const widget of rawLayout) {
+        if (widget === 'chatbot') {
+          continue;
+        }
+
+        if (widget.endsWith('_large')) {
+          currentX += 2;
+          curSpace += 2;
+        } else if (widget.endsWith('_xlarge')) {
+          currentX += 3;
+          curSpace += 3;
+        } else {
+          currentX += 1;
+          curSpace += 1;
+        }
+
+        if ((chatbotUsed && curSpace > 8) || (!chatbotUsed && curSpace > 7)) {
+          if (widget.endsWith('_large')) {
+            curSpace -= 2;
+          } else if (widget.endsWith('_xlarge')) {
+            curSpace -= 3;
+          } else {
+            curSpace -= 1;
+          }
+
+          break;
+        }
+
+        if (currentX <= widthLimit) {
+          layout.push(widget);
+
+          currentX %= widthLimit;
+          continue;
+        }
+
+        if (chatbotUsed || (currentX === widthLimit + 1 && widget.endsWith('_xlarge'))) {
+          let shortenedWidget = widget.replace('_large', '').replace('_xlarge', '');
+
+          if (widget.endsWith('_xlarge') && currentX === widthLimit + 1) {
+            shortenedWidget = `${shortenedWidget}_large`;
+            currentX--;
+            curSpace--;
+          } else if (widget.endsWith('_xlarge')) {
+            currentX -= 2;
+            curSpace -= 2;
+          } else if (widget.endsWith('_large')) {
+            currentX--;
+            curSpace--;
+          }
+
+          currentX %= widthLimit;
+        } else {
+          layout.push('chatbot');
+          curSpace += 1;
+          chatbotUsed = true;
+          layout.push(widget);
+
+          if (widget.endsWith('_large')) {
+            currentX = 2;
+          } else if (widget.endsWith('_xlarge')) {
+            currentX = 3;
+          } else {
+            currentX = 1;
+          }
+        }
+      }
+
+      if (!layout.includes('chatbot') && !chatbotUsed) {
+        layout.push('chatbot');
+        curSpace += 1;
+      }
+      console.log(curSpace);
+
+      if (curSpace < widthLimit * 2) {
+        const missingSpace = widthLimit * 2 - curSpace;
+
+        if (missingSpace === 2 && !layout[layout.length - 1].endsWith("_large") && !layout[layout.length - 1].endsWith("_xlarge")) {
+          layout[layout.length - 1] = `${layout[layout.length - 1]}_xlarge`;
+        } else if (missingSpace === 1 && !layout[layout.length - 1].endsWith("_xlarge")) {
+          if (layout[layout.length - 1].endsWith("_large")) {
+            layout[layout.length - 1] = `${layout[layout.length - 1].slice(0, -6)}_xlarge`;
+          } else {
+            layout[layout.length - 1] = `${layout[layout.length - 1]}_large`;
+          }
+        }
+      }
+
       console.log(layout);
 
       const widgetComponents = layout.map((widget) => {
@@ -128,12 +240,25 @@ function App() {
           height: '100%',
         }}
       >
-        <Container>
+        <Container
+          sx={{
+            width: '100%',
+            height: '100%',
+          }}
+          maxWidth={extended ? 'xl' : 'lg'}
+        >
+          <Stack sx={{ paddingBottom: '2rem' }} direction="row" alignItems="center" justifyContent="center" spacing={2}>
+            logo goes here
+            <Typography variant="h1">
+              Daily Briefing
+            </Typography>
+          </Stack>
           <Grid 
             justifyContent="flex-start"
             alignItems="flex-start"
             container
             spacing={2}
+            columns={extended ? 16 : 12}
           >
             {components}
           </Grid>

@@ -47,12 +47,12 @@ function EmailChip({ from, subject, summary, body, date, size, idx }) {
 
     return (
         <Grid item xs={4 * size}>
-            <Box sx={{ width: '96%', height: 'calc(100% - 15px)', padding: '2%', backgroundColor: `rgba(0, 0, 0, ${0.2 / (idx + 1)})` }} className="EmailChip">
+            <Box sx={{ width: '96%', height: `calc(100% - ${size * 14}px)`, padding: '2%', backgroundColor: `rgba(0, 0, 0, ${0.2 / (idx + 1)})` }} className="EmailChip">
                 <Box>
                     <Typography variant="body1" align="left" sx={{ float: 'left', fontWeight: 'bold' }}>
                         {from}
                     </Typography>
-                    <IconButton sx={{ float: 'right', padding: '3.5%' }} aria-label="expand" onClick={() => {setExpanded(!expanded)}}>
+                    <IconButton sx={{ float: 'right', padding: '2%' }} aria-label="expand" onClick={() => {setExpanded(!expanded)}}>
                         {expanded ? <ExpandLessIcon />  : <ExpandMoreIcon />}
                     </IconButton>
                     <br />
