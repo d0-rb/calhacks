@@ -23,19 +23,35 @@ export default function chatbot(size, borderRadius, elevation) {
     }
 };
 
-function ChatInformation({ size, answer, emails, borderRadius, elevation }) {
+function ChatInformation({ size, borderRadius, elevation }) {
     const [waiting, setWaiting] = React.useState(false);
     const [query, setQuery] = React.useState("");
     const [open, setOpen] = React.useState(false);
+    const [answer , setAnswer] = React.useState("");
+    const [emails, setEmails] = React.useState([]);
 
-    function submitSearch(event) {
+    async function submitSearch(event) {
         event.preventDefault();
+        console.log(query)
         setWaiting(true);
-        // do streaming or whatever with backend
-        // fetch(`http://localhost:5000/query?text=${query}`);
+        fetch(`http://127.0.0.1:8000/chat?text=${query}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        }).then((response) => {
+            return response.json();
+        }).then((data) => {
+            console.log(data);
+            setAnswer(data.text.answer);
+            setEmails(data.text.emails);
+            setWaiting(false);
+            return data;
 
-        // make sure to setWaiting(false) when done
-        // setWaiting(false);
+        }).catch((error) => {
+            console.log(error);
+            setWaiting(false);
+        });
     }
     
     return (
