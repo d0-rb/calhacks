@@ -1,0 +1,51 @@
+.MeetingsSlideDown1 {
+    animation: slideDown1 0.5s forwards;
+}
+
+.MeetingsSlideDown2 {
+    animation: slideDown2 0.5s forwards;
+}
+
+.MeetingsSlideUp1 {
+    animation: slideUp1 0.5s forwards;
+}
+
+.MeetingsSlideUp2 {
+    animation: slideUp2 0.5s forwards;
+}
+
+@keyframes slideDown1 {
+    from {
+        transform: translateY(-33.33%);
+    }
+    to {
+        transform: translateY(0%);
+    }
+}
+
+@keyframes slideDown2 {
+    from {
+        transform: translateY(-33.33%);
+    }
+    to {
+        transform: translateY(0%);
+    }
+}
+
+@keyframes slideUp1 {
+    from {
+        transform: translateY(33.33%);
+    }
+    to {
+        transform: translateY(0%);
+    }
+}
+
+@keyframes slideUp2 {
+    from {
+        transform: translateY(33.33%);
+    }
+    to {
+        transform: translateY(0%);
+    }
+}

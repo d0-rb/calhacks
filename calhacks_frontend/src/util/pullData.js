@@ -26,57 +26,21 @@ export default async function pullData() {
             },
         ],
         "meetings": [
-            {    
-                "meetings_today": [
-                    {
-                        "date": "Monday, November 5th, 2018",
-                    },
-                    {
-                        "name": "CalHacks",
-                        "location": "Pauley Ballroom",
-                        "time": "10:00 AM",
-                    }, 
-                    {
-                        "name": "Lunch with Manager",
-                        "location": "Cafe 3",
-                        "time": "12:00 PM",
-                    },
-                ]
+            {
+                "name": "CalHacks",
+                "location": "Pauley Ballroom",
+                "time": 1541442340,
             }, 
             {
-                "meetings_tomorrow": [
-                    {
-                        "date": "Tuesday, November 6th, 2018",
-                    },
-                    {
-                        "name": "CalHacks",
-                        "location": "Pauley Ballroom",
-                        "time": "10:00 AM",
-                    }, 
-                    {
-                        "name": "Lunch with Manager",
-                        "location": "Cafe 3",
-                        "time": "12:00 PM",
-                    },
-                ]
-            }, 
+                "name": "Lunch with Manager",
+                "location": "Cafe 3",
+                "time": 1541551998,
+            },
             {
-                "meetings_this_week": [
-                    {
-                        "week": "Week of November 5th, 2018",
-                    }, 
-                    {
-                        "name": "CalHacks",
-                        "location": "Pauley Ballroom",
-                        "time": "10:00 AM",
-                    }, 
-                    {
-                        "name": "Lunch with Manager",
-                        "location": "Cafe 3",
-                        "time": "12:00 PM",
-                    },
-                ]
-            }
+                "name": "All Hands Meeting",
+                "location": "Meeting Room 8.742",
+                "time": 1541561998,
+            },
         ],
         "news": [
             {
