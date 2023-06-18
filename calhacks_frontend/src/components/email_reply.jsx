@@ -113,7 +113,7 @@ function EmailCard({ from, subject, body, summary, suggested_response, setShowEm
                 {from}
             </Typography>
             <Paper elevation={3}>
-                <Typography sx={{ paddingLeft: '5%', paddingTop: '5%', paddingBottom: '5%', float: 'left', maxWidth: '80%' }} variant="body2" align="left" noWrap={true}>
+                <Typography sx={{ paddingLeft: '5%', paddingTop: '5%', paddingBottom: '5%', float: 'left', maxWidth: '75%' }} variant="body2" align="left" noWrap={true}>
                     {summary}
                 </Typography>
                 <IconButton sx={{ float: 'right', padding: '4%' }} aria-label="expand" onClick={() => {setShowEmail({from, subject, body})}}>
@@ -124,7 +124,7 @@ function EmailCard({ from, subject, body, summary, suggested_response, setShowEm
             <Stack direction="row" spacing={1} sx={{ marginTop: '3%', height: '100%' }}>
                 <TextField sx={{ width: '100%', marginTop: '3%' }} label="Suggested Reply" disabled={sent} variant="filled" defaultValue={suggested_response} multiline rows={3} />
                 <Box sx={{ aspectRatio: 1, paddingTop: '20%' }}>
-                    <IconButton aria-label="send" onClick={() => {setSent(true)}}>
+                    <IconButton aria-label="send" disabled={sent} onClick={() => {setSent(true)}}>
                         <SendIcon />
                     </IconButton>
                 </Box>
