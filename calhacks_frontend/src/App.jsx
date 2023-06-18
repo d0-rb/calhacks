@@ -65,7 +65,7 @@ function App() {
 
   useEffect(() => {
     async function prepareWidgets() {
-      const data = await pullData();
+      const data = await pullData(openai);
       const [briefingSummary, widgets] = await Promise.all([summarize(data), getWidgets(data)]);
 
       // const layoutSuggestion = await openai.createChatCompletion({
@@ -99,7 +99,9 @@ function App() {
       // });
 
       // const rawLayout = JSON.parse(layoutSuggestion.data.choices[0].message.function_call.arguments).layout;
-      const rawLayout = ["email_reply", "social_media", "AWS", "shopping"];
+      const rawLayout = ["email_reply", "meetings"];  // mockFragment1
+      // const rawLayout = ["email_reply", "meetings", "finance", "shopping", "travel"];  // mock1
+      // const rawLayout = ["email_reply_large", "social_media", "AWS", "shopping"];  // mock2
       let layout = [];
 
       let totalSpace = 0;
