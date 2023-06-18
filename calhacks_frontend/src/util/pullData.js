@@ -81,19 +81,15 @@ export default async function pullData() {
         "chatbot": [
             {
                 "message": "Hi, I am your personal assistant. How can I help you today?",
-                "isBot": true
             },
             {
                 "message": "I am looking for a team to join.",
-                "isBot": false
             },
             {
                 "message": "I can help you with that. Here are some teams that are looking for members:",
-                "isBot": true
             },
             {
                 "message": "Team 1",
-                "isBot": false
             },
         ],
         "news": [
