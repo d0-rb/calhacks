@@ -255,7 +255,7 @@ function App() {
         >
           <Stack sx={{ paddingBottom: '2rem' }} direction="row" alignItems="center" justifyContent="center" spacing={2}>
             <Box sx={{ position: 'absolute', top: '5%', left: '2%' }}>
-              <img src={logo} alt="logo" style={{ width: '6rem', height: '6rem' }} />
+              <img src={logo} alt="logo" style={{ width: '3rem', height: '3rem' }} />
               <Typography variant="h3">
                 Briefly
               </Typography>
