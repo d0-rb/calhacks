@@ -97,7 +97,7 @@ function App() {
         const WidgetComponent = WIDGET_MAPPINGS[widget];
         const [widgetName, size] = stripWidgetSize(widget);
         const component = (
-          <Grid item xs={size * 4} key={widget} sx={{ width: '100%', height: '16rem' }}>
+          <Grid item xs={size * 4} key={widget} sx={{ width: '100%', height: '20rem' }}>
             <WidgetComponent data={data[widgetName]} />
           </Grid>
         );
