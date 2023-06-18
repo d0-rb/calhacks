@@ -14,6 +14,7 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 import base64
 import re
+import time
 
 
 
@@ -150,9 +151,14 @@ def init_csv():
 
 def update_pinecone():
     new_rows = update_csv()
+    if not new_rows:
+        print('no new emails')
+        return
     print(len(new_rows))
     df = pd.DataFrame(new_rows)
     embed_and_upsert(df)
 
 # init_csv()
-update_pinecone()
+while True:
+    update_pinecone()
+    time.sleep(1)
