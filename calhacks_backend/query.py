@@ -4,7 +4,7 @@ import os
 import dotenv
 dotenv.load_dotenv()
 
-q = "WHat events was meetup notifying me me about?"
+q = "What events was meetup notifying me me about?"
 def chatbot(q):
     res = query(q)
     emails = [message['metadata'] for message in res['matches']]
