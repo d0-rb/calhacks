@@ -3,6 +3,14 @@ import { Avatar, Typography, TextField, IconButton, Card, Stack, Box } from "@mu
 import SendIcon from "@mui/icons-material/Send";
 import { useTheme } from "@mui/material/styles";
 import CloseIcon from "@mui/icons-material/Close";
+import LaunchIcon from "@mui/icons-material/Launch";
+import PropTypes from "prop-types";
+import Button from "@mui/material/Button";
+import { styled } from "@mui/material/styles";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
 
 
 export default function chatbot(size, borderRadius, elevation) {
@@ -23,7 +31,7 @@ function DisplayEmail({ from, subject, body, setShowEmail }) {
     return (
         <>
             <Stack sx={{ zIndex: 1, position: 'relative', top: '0', left: '0'}} className="EmailDisplay">
-                <Box sx={{ paddingTop: '4%', paddingLeft: '4%', paddingRight: '4%' }}>
+                <Box sx={{ paddingTop: '4%', paddingLeft: '4%', paddingRight: '4%'}}>
                     <Typography sx={{ float: 'left' }} variant="h5" align="left" noWrap={true}>
                         {subject}
                     </Typography>
@@ -56,24 +64,29 @@ function ChatInformation({size, answer, borderRadius, elevation, setShowEmail}) 
         <div>
             {size == 1 ? 
                 <Box align="right" sx={{ paddingTop: '3%', paddingBottom: '2%', paddingRight:'4%'}}>
-                    <Button variant="outlined" onClick={handleClickOpen}>
-                        Open dialog
-                    </Button>
+                    <IconButton variant="outlined" onClick={handleClickOpen}>
+                        <LaunchIcon/>
+                    </IconButton>
                     <CustomizedDialogs title={"ChatBot Response"} body={answer} open={open} setOpen={setOpen}/> 
                 </Box>
                 : null
             }
-            <Box sx={{ paddingTop: '3%', paddingBottom: '3%' }}>
-                <Stack direction="row" spacing={1}>
+            <Box sx={{ paddingTop: '3%', paddingBottom: '3%', paddingRight:'5%', height:140, wordBreak: 'break-all'}}>
+                <Stack sx={{ height: '100%' }} direction="row" spacing={1}>
                     <Avatar sx={{ marginLeft: '3%', marginRight: '3%'}}>B</Avatar>
-                    <Typography variant="body1" align="left" sx={{ paddingRight: '3%'}}>
+                    <Typography variant="body1" align="left" sx={{
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            display: "-webkit-box",
+                            WebkitBoxOrient: "vertical",
+                        }}>
                         {answer}
                     </Typography>
                 </Stack>
             </Box>
-            <Stack direction="row" spacing={1} sx={{ marginTop: '3%', height: '100%', marginLeft: '5%' }}>
-                <TextField sx={{ width: '100%', marginTop: '3%' }} label="Send Response" disabled={sent} variant="filled" multiline rows={3} />
-                <Box sx={{ aspectRatio: 1, paddingTop: '20%' }}>
+            <Stack direction="row" spacing={1} sx={{ height: '100%', marginLeft: '5%'}}>
+                <TextField sx={{ width: '100%', marginTop: '3%' }} label="Send Response" disabled={sent} variant="filled" multiline rows={1} />
+                <Box sx={{ aspectRatio: 1, paddingTop: '10%' }}>
                     <IconButton aria-label="send" onClick={() => {setSent(true); setShowEmail(true);}}>
                         <SendIcon />
                     </IconButton>
@@ -82,14 +95,6 @@ function ChatInformation({size, answer, borderRadius, elevation, setShowEmail}) 
         </div>
     );
 }
-
-import PropTypes from 'prop-types';
-import Button from '@mui/material/Button';
-import { styled } from '@mui/material/styles';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -136,7 +141,7 @@ function CustomizedDialogs({title, body, open, setOpen}) {
                     {title}
                 </BootstrapDialogTitle>
                 <DialogContent dividers>
-                    <Typography gutterBottom noWrap={true}>
+                    <Typography gutterBottom>
                         {body}
                     </Typography>
                 </DialogContent>
