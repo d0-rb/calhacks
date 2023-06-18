@@ -1,7 +1,4 @@
-
-
-// reply-email, meetings, 3 categories
-export const mock1 = {
+export const mockFragment1 = {
     "email_reply": [
         {
             "from": "Hackathon Team",
@@ -28,6 +25,77 @@ export const mock1 = {
             "date": "2023-06-17T20:23:08+00:00"
         },
     ],
+    "meetings": [
+        {
+            "name": "CalHacks",
+            "location": "Pauley Ballroom",
+            "time": 1687190400,
+        }, 
+        {
+            "name": "Lunch with Manager",
+            "location": "Cafe 3",
+            "time": 1687291200,
+        },
+        {
+            "name": "All Hands Meeting",
+            "location": "Meeting Room 3.202",
+            "time": 1687298400,
+        },
+    ],
+}
+
+export const mockFragment2 = {
+    "email_reply": [
+        {
+            "from": "TEMU",
+            "subject": "Sponsorship Offer",
+            "body": "Hello, we are TEMU, a fast-growing online marketplace with extremely affordable prices. We are interested in sponsoring your event and would like to discuss further details. Please let us know if you are interested. Thank you.",
+            "summary": "TEMU wants to sponsor you.",
+            "suggested_response": "Thank you for reaching out! I am interested in discussing further details, please let me know if you are available for a call.",
+            "date": "2023-06-17T20:23:08+00:00"
+        },
+        {
+            "from": "Jane Doe",
+            "subject": "Big fan!!!!",
+            "body": "Hi!! I am a big fan of your work and I would love to meet you in person, I am attending CalHacks and I was wondering if you would be interested in meeting up. Please let me know if you are interested. Thank you so much!!!",
+            "summary": "A fan is interested in meeting you.",
+            "suggested_response": "Thank you very much for the support! I will be attending CalHacks and I would love to meet you in person. See you there!",
+            "date": "2023-06-17T20:23:08+00:00"
+        },
+    ],
+    "social_media": [
+        {
+            "title": "Twitter",
+            "summary": "You're gaining a lot of traction!",
+            "summaries": [
+                "You gained 2,432 new followers this week.",
+                "Your last tweet was liked 11,330 times.",
+                "@_akhaliq quote retweeted your tweet.",
+            ],
+        },
+        {
+            "title": "Instagram",
+            "summary": "You have 2 direct messages.",
+            "summaries": [
+                "John Smith: Hey, are you still going to CalHacks?",
+                "Jane Doe: Just saw your latest work, would love to talk about it",
+            ],
+        },
+        {
+            "title": "Facebook",
+            "summary": "You have 3 new notifications.",
+            "summaries": [
+                "Yann LeCun commented on your post.",
+                "Gary Marcus replied to Yann Lecun's comment.",
+                "Yann LeCun replied to Gary Marcus' comment.",
+            ],
+        },
+    ],
+}
+
+// reply-email, meetings, 3 categories
+export const mock1 = {
+    ...mockFragment1,
     "finance": {
         "color": "limegreen",
         "summary": "Your finances are in good shape.",
@@ -55,23 +123,6 @@ export const mock1 = {
             }
         ]
     },
-    "meetings": [
-        {
-            "name": "CalHacks",
-            "location": "Pauley Ballroom",
-            "time": 1687190400,
-        }, 
-        {
-            "name": "Lunch with Manager",
-            "location": "Cafe 3",
-            "time": 1687291200,
-        },
-        {
-            "name": "All Hands Meeting",
-            "location": "Meeting Room 3.202",
-            "time": 1687298400,
-        },
-    ],
     "shopping": {
         "color": "yellow",
         "summary": "Your items have been shipped.",
@@ -128,8 +179,63 @@ export const mock1 = {
     }
 }
 
+// reply-email, social media, 2 categories
 export const mock2 = {
-
+    ...mockFragment2,
+    "AWS": {
+        "color": "orange",
+        "summary": "Your AWS account has been compromised.",
+        "emails": [
+            {
+                "from": "Amazon Web Services",
+                "subject": "Notice of suspension of your AWS account",
+                "summary": "Your AWS account has been suspended due to suspicious activity.",
+                "body": "Dear AWS customer, due to suspicious activity on your AWS account, we have suspendedd all activity on your account. Please contact us immediately to resolve this issue.",
+                "date": "2023-06-17T20:23:08+00:00"
+            },
+            {
+                "from": "Amazon Web Services",
+                "subject": "Alert for susppicious activity on your AWS account",
+                "summary": "Your EC2 spending has increased by 400%.",
+                "body": "Dear AWS customer, we have detected a significant increase in your EC2 spending, from $29.34 per day to $116.23 per day. Please log in to your AWS account to review your recent activity. If you did not authorize this activity, please contact us immediately.",
+                "date": "2023-06-17T20:22:08+00:00"
+            },
+        ],
+    },
+    "shopping": {
+        "color": "yellow",
+        "summary": "3 items on your wishlist and 1 item on Brian's birthday wishlist are on sale.",
+        "emails": [
+            {
+                "from": "Amazon",
+                "subject": "Your wishlist items are on sale!",
+                "summary": "2 items on your wishlist are on sale.",
+                "body": "Dear Amazon customer, we are pleased to inform you that 2 items on your wishlist are on sale. The Apple Airpods are now $129.99, and the Apple Watch is now $299.99. Please visit our website to purchase these items.",
+                "date": "2023-06-17T20:23:08+00:00"
+            },
+            {
+                "from": "Amazon",
+                "subject": "Your wishlist items are on sale!",
+                "summary": "1 item on your wishlist is on sale.",
+                "body": "Dear Amazon customer, we are pleased to inform you that 1 item on your wishlist is on sale. The Bosch drill is now $99.99. Please visit our website to purchase this item.",
+                "date": "2023-06-17T20:23:08+00:00"
+            },
+            {
+                "from": "Amazon",
+                "subject": "Return of your order received",
+                "summary": "Your order has been returned.",
+                "body": "Dear Amazon customer, we have received your return of the Dell monitor. Your refund will be processed within 3-5 business days.",
+                "date": "2023-06-17T20:23:08+00:00"
+            },
+            {
+                "from": "Amazon",
+                "subject": "Brian's birthday wishlist",
+                "summary": "1 item on Brian's birthday wishlist is on sale.",
+                "body": "Dear Amazon customer, we are pleased to inform you that 1 item on Brian's birthday wishlist is on sale. The Nvidia RTX 3080 is now $699.99. Please visit our website to purchase this item.",
+                "date": "2023-06-17T20:23:08+00:00"
+            },
+        ],
+    }
 }
 
 export const mockn = {
