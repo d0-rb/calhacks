@@ -82,3 +82,14 @@ def get_embedding(text):
         model="text-embedding-ada-002"
     )
     return response['data'][0]['embedding']
+
+    
+def query(query):
+    embedding = get_embedding(query)
+    query_response = index.query(
+        top_k=10,
+        include_values=True,
+        include_metadata=True,
+        vector=embedding
+    )
+    return query_response
