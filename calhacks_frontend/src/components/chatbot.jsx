@@ -17,31 +17,46 @@ export default function chatbot(size, borderRadius, elevation) {
     return ({ data }) => {
         return (
             <Card sx={{ width: "100%", height: "100%", borderRadius}} elevation={elevation}>
-                <ChatInformation size={size} answer={data.answer} emails={data.emails} borderRadius={borderRadius} elevation={elevation}/>
+                <ChatInformation size={size} answer={data?.answer} emails={data?.emails} borderRadius={borderRadius} elevation={elevation}/>
             </Card>
         );
     }
 };
 
 function ChatInformation({ size, answer, emails, borderRadius, elevation }) {
-    const [sent, setSent] = React.useState(false);
+    const [waiting, setWaiting] = React.useState(false);
+    const [query, setQuery] = React.useState("");
     const [open, setOpen] = React.useState(false);
+
+    function submitSearch(event) {
+        event.preventDefault();
+        setWaiting(true);
+        // do streaming or whatever with backend
+        // fetch(`http://localhost:5000/query?text=${query}`);
+
+        // make sure to setWaiting(false) when done
+        // setWaiting(false);
+    }
     
     return (
         <Stack sx={{ padding: '5%', height: '90%', width: '90%' }} spacing={1}>
-            <TextField label="Email Search" disabled={sent} type="search" variant="standard" />
-            <Box overflow="auto">
-                <Typography variant="body1" align="left">
-                    {answer}
-                </Typography>
-                <IconButton sx={{ float: 'left' }} aria-label="open-sources" onClick={() => {setOpen(true)}}>
-                    <LaunchIcon color="primary" />
-                </IconButton>
-                <Typography sx={{ float: 'left', paddingTop: (size === 1 ? "3%" : (size === 2 ? "1.5%" : "1%")), paddingLeft: '2%' }} color="primary" variant="body1" align="left">
-                    Sources
-                </Typography>
-                <CustomizedDialogs title={"Email Sources"} emails={emails} open={open} setOpen={setOpen}/> 
+            <Box sx={{ width: '100%' }} component="form" onSubmit={submitSearch}>
+                <TextField sx={{ width: '92%' }} label="Email Search" disabled={waiting} type="search" variant="standard" value={query} onChange={(event) => setQuery(event.target.value)} />
             </Box>
+            {emails && answer ? 
+                <Box overflow="auto">
+                    <Typography variant="body1" align="left">
+                        {answer}
+                    </Typography>
+                    <IconButton sx={{ float: 'left' }} aria-label="open-sources" onClick={() => {setOpen(true)}}>
+                        <LaunchIcon color="primary" />
+                    </IconButton>
+                    <Typography sx={{ float: 'left', paddingTop: (size === 1 ? "3%" : (size === 2 ? "1.5%" : "1%")), paddingLeft: '2%' }} color="primary" variant="body1" align="left">
+                        Sources
+                    </Typography>
+                    <CustomizedDialogs title={"Email Sources"} emails={emails} open={open} setOpen={setOpen}/> 
+                </Box>
+                : null}
         </Stack>
     );
 }
