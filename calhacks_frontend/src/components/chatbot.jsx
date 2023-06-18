@@ -10,8 +10,8 @@ export default function chatbot(size, borderRadius, elevation) {
         const [showEmail, setShowEmail] = React.useState(null);
         return (
             <Card sx={{ width: "100%", height: "100%", borderRadius}} elevation={elevation}>
-                {!showEmail ? <ChatInformation answer={data.answer} borderRadius={borderRadius} elevation={elevation} setShowEmail={setShowEmail}/> : null}
-                {showEmail ? <DisplayEmail from={data.emails[0].sender} subject={data.emails[0].subject} body={data.emails[0].body} setShowEmail={setShowEmail} /> : null}
+                {!showEmail ? <ChatInformation size={size} answer={data.answer} borderRadius={borderRadius} elevation={elevation} setShowEmail={setShowEmail}/> : null}
+                {showEmail ? <DisplayEmail size={size} from={data.emails[0].sender} subject={data.emails[0].subject} body={data.emails[0].body} setShowEmail={setShowEmail} /> : null}
             </Card>
         );
     }
@@ -44,11 +44,26 @@ function DisplayEmail({ from, subject, body, setShowEmail }) {
     );
 }
 
-function ChatInformation({answer, borderRadius, elevation, setShowEmail}) {
+function ChatInformation({size, answer, borderRadius, elevation, setShowEmail}) {
     const [sent, setSent] = React.useState(false);
+    const [open, setOpen] = React.useState(false);
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+    console.log(size);
+    //{ paddingTop: '15%', paddingBottom: '15%' }
     return (
         <div>
-            <Box sx={{ paddingTop: '15%', paddingBottom: '15%' }}>
+            {size == 1 ? 
+                <Box align="right" sx={{ paddingTop: '3%', paddingBottom: '2%', paddingRight:'4%'}}>
+                    <Button variant="outlined" onClick={handleClickOpen}>
+                        Open dialog
+                    </Button>
+                    <CustomizedDialogs title={"ChatBot Response"} body={answer} open={open} setOpen={setOpen}/> 
+                </Box>
+                : null
+            }
+            <Box sx={{ paddingTop: '3%', paddingBottom: '3%' }}>
                 <Stack direction="row" spacing={1}>
                     <Avatar sx={{ marginLeft: '3%', marginRight: '3%'}}>B</Avatar>
                     <Typography variant="body1" align="left" sx={{ paddingRight: '3%'}}>
@@ -64,6 +79,73 @@ function ChatInformation({answer, borderRadius, elevation, setShowEmail}) {
                     </IconButton>
                 </Box>
             </Stack>
+        </div>
+    );
+}
+
+import PropTypes from 'prop-types';
+import Button from '@mui/material/Button';
+import { styled } from '@mui/material/styles';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+  '& .MuiDialogContent-root': {
+    padding: theme.spacing(2),
+  },
+  '& .MuiDialogActions-root': {
+    padding: theme.spacing(1),
+  },
+}));
+
+function BootstrapDialogTitle(props) {
+  const { children, onClose, ...other } = props;
+
+  return (
+    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
+      {children}
+      {onClose ? (
+        <IconButton aria-label="close" onClick={onClose} sx={{position: 'absolute', right: 8, top: 8, color: (theme) => theme.palette.grey[500],}}>
+          <CloseIcon />
+        </IconButton>
+      ) : null}
+    </DialogTitle>
+  );
+}
+
+BootstrapDialogTitle.propTypes = {
+  children: PropTypes.node,
+  onClose: PropTypes.func.isRequired,
+};
+
+function CustomizedDialogs({title, body, open, setOpen}) {
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    return (
+        <div>
+            <BootstrapDialog
+                onClose={handleClose}
+                aria-labelledby="customized-dialog-title"
+                open={open}
+            >
+                <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
+                    {title}
+                </BootstrapDialogTitle>
+                <DialogContent dividers>
+                    <Typography gutterBottom noWrap={true}>
+                        {body}
+                    </Typography>
+                </DialogContent>
+                <DialogActions>
+                    <Button autoFocus onClick={handleClose}>
+                        Save changes
+                    </Button>
+                </DialogActions>
+            </BootstrapDialog>
         </div>
     );
 }
