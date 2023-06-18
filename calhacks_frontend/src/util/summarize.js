@@ -1,4 +1,5 @@
 // summarize all data from api into a string for gpt
+const PROCESSED_TYPES = ['email_reply', 'meetings', 'social_media'];
 
 export async function summarize(data) {
     let summary = "******\n";
@@ -17,7 +18,7 @@ export async function summarize(data) {
         summary += "======\n";
     }
 
-    if (data?.meetings.length > 0) {
+    if (data?.meetings?.length > 0) {
         summary += "======\n"
         summary += "Upcoming meetings:\n"
         data.meetings.forEach((meeting) => {
@@ -31,7 +32,7 @@ export async function summarize(data) {
         summary += "======\n";
     }
 
-    if (data?.social_media.length > 0) {
+    if (data?.social_media?.length > 0) {
         summary += "======\n"
         summary += "Social media summaries:\n"
         data.social_media.forEach((platform) => {
@@ -42,6 +43,27 @@ export async function summarize(data) {
             summary += "------\n";
         });
         summary += "======\n";
+    }
+
+    for (const [key, value] of Object.entries(data)) {
+        if (!PROCESSED_TYPES.includes(key)) {
+            if (!(value.color && value.summary && value.emails && value.emails.length > 0)) {
+                continue;
+            }
+
+            summary += "======\n";
+            summary += `${key} emails overall summary:\n`;
+            summary += `${value.summary}\n`;
+            summary += `${key} emails summaries:\n`;
+            value.emails.forEach((email) => {
+                summary += "------\n";
+                summary += `From:\n${email.from}\n\n`;
+                summary += `Subject:\n${email.subject}"\n\n`;
+                summary += `Summary:\n${email.summary}"\n\n`;
+                summary += "------\n";
+            });
+            summary += "======\n";
+        }
     }
 
     summary += "******\n";
