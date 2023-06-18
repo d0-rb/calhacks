@@ -129,13 +129,13 @@ function MeetingCard({ setIdx, idx, data, relIdx }) {
             </Typography>
             {!relIdx && idx > 0 ?
                 <IconButton sx={{ position: 'absolute', top: '4%', left: '4%', float: 'right', padding: '3%' }} aria-label="previous" onClick={() => {setIdx(idx - 1)}}>
-                    <ExpandLessIcon />
+                    <ExpandLessIcon color="primary" />
                 </IconButton>
                 : null
             }
             {!relIdx && idx < data.length - 1 ?
                 <IconButton sx={{ position: 'absolute', bottom: '4%', left: '4%', float: 'right', padding: '3%' }} aria-label="next" onClick={() => {setIdx(idx + 1)}}>
-                    <ExpandMoreIcon />
+                    <ExpandMoreIcon color="primary" />
                 </IconButton>
                 : null
             }
@@ -146,7 +146,7 @@ function MeetingCard({ setIdx, idx, data, relIdx }) {
                     return (
                         <>
                             <Grid item xs={4.5}>
-                                <Typography align="right" variant="h5" sx={{ width: '100%', height: '100%' }}>
+                                <Typography align="right" color="secondary" variant="h5" sx={{ width: '100%', height: '100%' }}>
                                     {eventTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric' })}
                                 </Typography>
                             </Grid>

@@ -106,66 +106,30 @@ export default async function pullData() {
             {
                 "title": "Facebook",
                 "summary": "You have 3 new notifications.",
-                "notifications": [
-                    {
-                        "from": "John Smith",
-                        "summary": "John Smith commented on your post.",
-                        "body": "I love this post!"
-                    },
-                    {
-                        "from": "Jane Doe",
-                        "summary": "Jane Doe liked your post.",
-                        "body": "I love this post!"
-                    },
-                    {
-                        "from": "Jane Doe",
-                        "summary": "Jane Doe liked your post.",
-                        "body": "I love this post!"
-                    }
-                ]
+                "summaries": [
+                    "John Smith commented on your post: I really like this!",
+                    "Jane Doe liked your post.",
+                    "Alex Smith commented on your post.",
+                ],
             },
             {
                 "title": "Twitter",
-                "summary": "You have 3 new notifications.",
-                "notifications": [
-                    {
-                        "from": "John Smith",
-                        "summary": "John Smith commented on your post.",
-                        "body": "I love this post!"
-                    },
-                    {
-                        "from": "Jane Doe",
-                        "summary": "Jane Doe liked your post.",
-                        "body": "I love this post!"
-                    },
-                    {
-                        "from": "Jane Doe",
-                        "summary": "Jane Doe liked your post.",
-                        "body": "I love this post!"
-                    }
-                ]
+                "summary": "You're gaining a lot of traction!",
+                "summaries": [
+                    "John Smith retweeted your tweet: Awesome project!",
+                    "Jane Doe liked your tweet.",
+                    "Alex Smith retweeted your tweet.",
+                    "CalHacks liked your tweet.",
+                ],
             },
             {
                 "title": "Instagram",
-                "summary": "You have 3 new notifications.",
-                "notifications": [
-                    {
-                        "from": "John Smith",
-                        "summary": "John Smith commented on your post.",
-                        "body": "I love this post!"
-                    },
-                    {
-                        "from": "Jane Doe",
-                        "summary": "Jane Doe liked your post.",
-                        "body": "I love this post!"
-                    },
-                    {
-                        "from": "Jane Doe",
-                        "summary": "Jane Doe liked your post.",
-                        "body": "I love this post!"
-                    }
-                ] 
-            }
+                "summary": "You have 2 direct messages.",
+                "summaries": [
+                    "John Smith said: Hey, do you want to work on a project together?",
+                    "Jane Doe said: Are you going to CalHacks?",
+                ],
+            },
         ],
         "favorites": [
             {

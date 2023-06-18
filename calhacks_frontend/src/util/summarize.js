@@ -31,6 +31,19 @@ export async function summarize(data) {
         summary += "======\n";
     }
 
+    if (data?.social_media.length > 0) {
+        summary += "======\n"
+        summary += "Social media summaries:\n"
+        data.social_media.forEach((platform) => {
+            summary += "------\n";
+            summary += `Platform:\n${platform.title}\n\n`;
+            summary += `Overall summary:\n${platform.summary}\n\n`;
+            summary += `Notification summaries:\n${platform.summaries.join('\n')}\n`;
+            summary += "------\n";
+        });
+        summary += "======\n";
+    }
+
     summary += "******\n";
 
     return summary;

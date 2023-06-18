@@ -60,7 +60,7 @@ function ChatInformation({answer, borderRadius, elevation, setShowEmail}) {
                 <TextField sx={{ width: '100%', marginTop: '3%' }} label="Send Response" disabled={sent} variant="filled" multiline rows={3} />
                 <Box sx={{ aspectRatio: 1, paddingTop: '20%' }}>
                     <IconButton aria-label="send" onClick={() => {setSent(true); setShowEmail(true);}}>
-                        <SendIcon />
+                        <SendIcon color="primary" />
                     </IconButton>
                 </Box>
             </Stack>

@@ -43,13 +43,10 @@ const theme = createTheme({
   },
   palette: {
     primary: {
-      main: purple[500],
+      main: '#ff219b',
     },
     secondary: {
-      main: green[500],
-    },
-    background: {
-      main: '#ffffff',
+      main: '#5ebdff',
     },
     mode: 'dark',
   },
