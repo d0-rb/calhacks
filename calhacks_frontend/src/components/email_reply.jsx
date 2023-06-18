@@ -53,19 +53,19 @@ function EmailCards({ data, numEmails, size }) {
     if (showEmail) {
         if (size === 1) {
             if (page === 1) {
-                marginTop = '-51.5%';
+                marginTop = '-56.8%';
             } else if (page === 2) {
-                marginTop = '-44.8%';
+                marginTop = '-51.4%';
             } else {
-                marginTop = '-49.1%';
+                marginTop = '-46.2%';
             }
         } else if (size === 2) {
             if (page === 1) {
-                marginTop = '-25%';
+                marginTop = '-27.6%';
             } else if (page === 2) {
-                marginTop = '-22.4%';
+                marginTop = '-25%';
             } else {
-                marginTop = '-25.01%';
+                marginTop = '-22.4%';
             }
         } else if (size === 3) {
             if (page === 1) {
@@ -104,14 +104,14 @@ function EmailCards({ data, numEmails, size }) {
 }
 
 
-function EmailDisplay({ from, subject, body, setShowEmail, numEmails, length }) {
+function EmailDisplay({ from, subject, body, date, setShowEmail, numEmails, length }) {
     const theme = useTheme();
 
     return (
         <>
             <Stack sx={{ zIndex: 1, position: 'relative', top: '0', left: '0', minWidth: `calc(100% * ${numEmails/length})`, height: '100%'}} className="EmailDisplay">
                 <Box sx={{ paddingTop: '4%', paddingLeft: '4%', paddingRight: '4%' }}>
-                    <Typography sx={{ float: 'left' }} variant="h5" align="left" noWrap={true}>
+                    <Typography sx={{ float: 'left', width: '88%' }} variant="h5" align="left" noWrap={true}>
                         {subject}
                     </Typography>
                     <IconButton sx={{ float: 'right' }} aria-label="close" onClick={() => {setShowEmail(null)}}>
@@ -120,6 +120,7 @@ function EmailDisplay({ from, subject, body, setShowEmail, numEmails, length }) 
                 </Box>
                 <Typography sx={{ paddingLeft: '4%', paddingRight: '4%' }} variant="body1" align="left" noWrap={true} gutterBottom>
                     From: <Typography color="secondary" sx={{ display: 'inline' }}>{from}</Typography>
+                    <Typography variant="body2">{(new Date(Date.parse(date))).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' })}</Typography>
                 </Typography>
                 <Box sx={{ marginLeft: '4%', marginRight: '4%', marginTop: '2%', marginBottom: '4%', maxHeight: '40%', overflow: 'auto' }} elevation={4}>
                     <Typography variant="body2" align="left" gutterBottom>
@@ -132,7 +133,7 @@ function EmailDisplay({ from, subject, body, setShowEmail, numEmails, length }) 
 }
 
 
-function EmailCard({ from, subject, body, summary, suggested_response, setShowEmail }) {
+function EmailCard({ from, subject, body, summary, suggested_response, date, setShowEmail }) {
     const theme = useTheme();
     const [sent, setSent] = useState(false);
     // left align text
@@ -148,7 +149,7 @@ function EmailCard({ from, subject, body, summary, suggested_response, setShowEm
                 <Typography color="secondary" sx={{ paddingLeft: '5%', paddingTop: '5%', paddingBottom: '5%', float: 'left', maxWidth: '75%' }} variant="body2" align="left" noWrap={true}>
                     {summary}
                 </Typography>
-                <IconButton sx={{ float: 'right', padding: '4%' }} aria-label="expand" onClick={() => {setShowEmail({from, subject, body})}}>
+                <IconButton sx={{ float: 'right', padding: '4%' }} aria-label="expand" onClick={() => {setShowEmail({from, subject, body, date})}}>
                     <ChevronRightIcon color="secondary" />
                 </IconButton>
                 <Box sx={{ height: '3.1rem' }} />

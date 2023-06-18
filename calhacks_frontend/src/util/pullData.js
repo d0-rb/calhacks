@@ -8,23 +8,46 @@ export default async function pullData() {
                 "subject": "Re: Your application",
                 "body": "Hi, we are pleased to inform you that you have been accepted to CalHacks! Please reply to this email with your shirt size and dietary restrictions. We look forward to seeing you at the event!",
                 "summary": "You have been accepted to CalHacks!",
-                "suggested_response": "Thank you so much! I am so excited to attend CalHacks! My shirt size is M and I am vegetarian."
+                "suggested_response": "Thank you so much! I am so excited to attend CalHacks! My shirt size is M and I am vegetarian.",
+                "date": "2023-06-17T20:23:08+00:00"
             },
             {
                 "from": "Jane Doe",
                 "subject": "Are you going to CalHacks?",
                 "body": "Hey, are you going to CalHacks? I am looking for a team to join and I was wondering if you would be interested in working together.",
                 "summary": "Jane Doe is looking for a team to join.",
-                "suggested_response": "Yes, I am going to CalHacks! I would love to work together. What are you interested in working on?"
+                "suggested_response": "Yes, I am going to CalHacks! I would love to work together. What are you interested in working on?",
+                "date": "2023-06-17T20:23:08+00:00"
             },
             {
                 "from": "Alex Smith",
                 "subject": "Your Item on Facebook Marketplace",
                 "body": "Hi, I am interested in your item on Facebook Marketplace. Is it still available?",
                 "summary": "Alex Smith is interested in your item on Facebook Marketplace.",
-                "suggested_response": "Yes, it is still available. When would you like to meet?"
+                "suggested_response": "Yes, it is still available. When would you like to meet?",
+                "date": "2023-06-17T20:23:08+00:00"
             },
         ],
+        "finance": {
+            "color": "limegreen",
+            "summary": "Your finances are in good shape.",
+            "emails": [
+                {
+                    "from": "Bank of America",
+                    "subject": "Your account balance",
+                    "summary": "Your account balance is $1000.",
+                    "body": "Dear valued customer, your account balance is $1000. You have $500 in your checking account and $500 in your savings account. Thank you for banking with us.",
+                    "date": "2023-06-17T20:23:08+00:00"
+                },
+                {
+                    "from": "Robinhood",
+                    "subject": "Your portfolio performance",
+                    "summary": "Your portfolio has increased by 5%.",
+                    "body": "Your portfolio has increased by 5%. You have $1000 in your portfolio. You have $500 in stocks and $500 in cryptocurrency. Congratulations!",
+                    "date": "2023-06-17T20:23:08+00:00"
+                },
+            ]
+        },
         "meetings": [
             {
                 "name": "CalHacks",
@@ -76,32 +99,6 @@ export default async function pullData() {
             "humidity": "0.5",
             "wind": "5"
         },
-        // maybe not this one
-        "media_recommendations": [
-            {
-                "title": "The Office",
-                "summary": "The Office is a great show that you should watch!"
-            },
-            {
-                "documentation": "https://www.youtube.com/watch?v=UWLIgjB9gGw"
-            },
-            {
-                "project notes": "https://do"
-            }
-        ],
-        "suggestions": [
-            {
-                "commute": "You should leave now to arrive at your meeting on time."
-            },
-            {
-                "to_do": [
-                    "You have a meeting with your manager at 12:00 PM.",
-                    "publish cr 1.0.0",
-                    "send email to manager",
-                    "take pto on 11/5/18"
-                ]
-            }
-        ],
         "social_media": [
             {
                 "title": "Facebook",
@@ -131,24 +128,5 @@ export default async function pullData() {
                 ],
             },
         ],
-        "favorites": [
-            {
-                "manager": "John Smith",
-            }, 
-            {
-                "collaborators": [
-                    "Jane Doe",
-                    "John Smith",
-                    "John Doe"
-                ],
-            },
-            {
-                "sister_team" : [
-                    "Jane Doe",
-                    "John Smith",
-                    "John Doe"
-                ]
-            }
-        ]
     };
 }

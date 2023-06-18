@@ -11,6 +11,7 @@ import email_reply from './components/email_reply';
 import meetings from './components/meetings';
 import chatbot from './components/chatbot';
 import social_media from './components/social_media';
+import CategorizedEmails from './components/CategorizedEmails';
 import './App.css'
 import { Configuration, OpenAIApi } from "openai";
 
@@ -28,6 +29,7 @@ const WIDGET_MAPPINGS = {
   chatbot,
   social_media,
 }
+const DEFAULT_WIDGET = CategorizedEmails;
 const BORDER_RADIUS = 6;
 const ELEVATION = 8;
 
@@ -43,10 +45,13 @@ const theme = createTheme({
   },
   palette: {
     primary: {
-      main: '#ff219b',
+      main: '#5ebdff',
     },
     secondary: {
       main: '#5ebdff',
+    },
+    background: {
+      main: '#1c1c1c',
     },
     mode: 'dark',
   },
@@ -91,12 +96,15 @@ function App() {
       // });
 
       // const layout = JSON.parse(layoutSuggestion.data.choices[0].message.function_call.arguments).layout;
-      const layout = ["email_reply_large", "meetings", "chatbot", "social_media_large"];
+      const layout = ["email_reply_large", "meetings", "chatbot", "finance"];
       console.log(layout);
 
       const widgetComponents = layout.map((widget) => {
-        const WidgetComponent = WIDGET_MAPPINGS[widget];
+        let WidgetComponent = WIDGET_MAPPINGS[widget];
         const [widgetName, size] = stripWidgetSize(widget);
+        if (!WidgetComponent) {
+          WidgetComponent = DEFAULT_WIDGET(size, BORDER_RADIUS, ELEVATION, widgetName);
+        }
         const component = (
           <Grid item xs={size * 4} key={widget} sx={{ width: '100%', height: '20rem' }}>
             <WidgetComponent data={data[widgetName]} />
@@ -118,7 +126,6 @@ function App() {
         sx={{
           width: '100vw',
           height: '100%',
-          // backgroundColor: 'background.main',
         }}
       >
         <Container>

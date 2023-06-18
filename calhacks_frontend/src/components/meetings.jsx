@@ -93,9 +93,9 @@ export default function meetings(size, borderRadius, elevation) {
         for (let i = 0; i < size; i++) {
             calendars.push(
                 <Stack className={transitionClass} sx={{ width: `calc(100% / ${size})`, height: "300%", borderRadius, marginTop }} direction="column" spacing={0}>
-                    <MeetingCard setIdx={setCurrentIdx} idx={prevIdx - 1} relIdx={i} data={dataArrayByDay} />
-                    <MeetingCard setIdx={setCurrentIdx} idx={prevIdx } relIdx={i} data={dataArrayByDay} />
-                    <MeetingCard setIdx={setCurrentIdx} idx={prevIdx + 1} relIdx={i} data={dataArrayByDay} />
+                    <MeetingCard setIdx={setCurrentIdx} idx={prevIdx - 1} relIdx={i} size={size} data={dataArrayByDay} />
+                    <MeetingCard setIdx={setCurrentIdx} idx={prevIdx } relIdx={i} size={size} data={dataArrayByDay} />
+                    <MeetingCard setIdx={setCurrentIdx} idx={prevIdx + 1} relIdx={i} size={size} data={dataArrayByDay} />
                 </Stack>
             );
         }
@@ -110,7 +110,7 @@ export default function meetings(size, borderRadius, elevation) {
     }
 }
 
-function MeetingCard({ setIdx, idx, data, relIdx }) {
+function MeetingCard({ setIdx, idx, data, relIdx, size }) {
     const theme = useTheme();
     
     idx += relIdx;
@@ -127,14 +127,14 @@ function MeetingCard({ setIdx, idx, data, relIdx }) {
             <Typography sx={{ width: '100%', height: '10%', align: 'center', fontSize: '1.5rem', fontWeight: 'bold', marginTop: '4%' }}>
                 {date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
             </Typography>
-            {!relIdx && idx > 0 ?
-                <IconButton sx={{ position: 'absolute', top: '4%', left: '4%', float: 'right', padding: '3%' }} aria-label="previous" onClick={() => {setIdx(idx - 1)}}>
+            {(relIdx === size - 1) && idx > 0 ?
+                <IconButton sx={{ position: 'absolute', top: '4%', right: '4%', float: 'right', padding: '3%' }} aria-label="previous" onClick={() => {setIdx(idx - relIdx - 1)}}>
                     <ExpandLessIcon color="primary" />
                 </IconButton>
                 : null
             }
-            {!relIdx && idx < data.length - 1 ?
-                <IconButton sx={{ position: 'absolute', bottom: '4%', left: '4%', float: 'right', padding: '3%' }} aria-label="next" onClick={() => {setIdx(idx + 1)}}>
+            {(relIdx === size - 1) && idx < data.length - 1 ?
+                <IconButton sx={{ position: 'absolute', bottom: '4%', right: '4%', float: 'right', padding: '3%' }} aria-label="next" onClick={() => {setIdx(idx - relIdx + 1)}}>
                     <ExpandMoreIcon color="primary" />
                 </IconButton>
                 : null
