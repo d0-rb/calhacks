@@ -16,6 +16,7 @@ import CategorizedEmails from './components/CategorizedEmails';
 import './App.css'
 import { Configuration, OpenAIApi } from "openai";
 import { Typography } from '@mui/material';
+import logo from './assets/briefly.png';
 
 const OPENAI_API_KEY = import.meta.env.VITE_OPENAI_API_KEY;
 console.log(OPENAI_API_KEY);
@@ -253,7 +254,12 @@ function App() {
           maxWidth={extended ? 'xl' : 'lg'}
         >
           <Stack sx={{ paddingBottom: '2rem' }} direction="row" alignItems="center" justifyContent="center" spacing={2}>
-            logo goes here
+            <Box sx={{ position: 'absolute', top: '5%', left: '2%' }}>
+              <img src={logo} alt="logo" style={{ width: '6rem', height: '6rem' }} />
+              <Typography variant="h3">
+                Briefly
+              </Typography>
+            </Box>
             <Typography variant="h1">
               Good afternoon, Henry
             </Typography>
