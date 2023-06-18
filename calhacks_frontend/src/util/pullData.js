@@ -1,9 +1,9 @@
-import { mockFragment1, mock1, mock2 } from './mocks';
+import { mockFragment1, mockFragment2, mock1, mock2 } from './mocks';
 
 // pull all data needed for briefing from api
 
 export default async function pullData(openai) {
-    let data = mockFragment1;
+    let data = mockFragment2;
     let categories = {};
 
     try {
