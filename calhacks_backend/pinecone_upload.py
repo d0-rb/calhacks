@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 csv = pd.read_csv(
-    '/Users/sunnyjay/Documents/vscode/Hackathon/calhacks/calhacks_backend/emails.csv')
+    '/Users/kavlekar/Desktop/Code/Hackathons/calhacks2023/calhacks_backend/emails.csv')
 openai.api_key = os.getenv("OPENAI_API_KEY")
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
 

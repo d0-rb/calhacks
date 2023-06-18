@@ -1,4 +1,4 @@
-import { mock1, mock2 } from './mocks';
+import { mockFragment1, mock1, mock2 } from './mocks';
 
 // pull all data needed for briefing from api
 

@@ -16,6 +16,7 @@ import CategorizedEmails from './components/CategorizedEmails';
 import './App.css'
 import { Configuration, OpenAIApi } from "openai";
 import { Typography } from '@mui/material';
+import logo from './assets/briefly.png';
 
 const OPENAI_API_KEY = import.meta.env.VITE_OPENAI_API_KEY;
 console.log(OPENAI_API_KEY);
@@ -65,41 +66,43 @@ function App() {
 
   useEffect(() => {
     async function prepareWidgets() {
-      const data = await pullData();
+      const data = await pullData(openai);
       const [briefingSummary, widgets] = await Promise.all([summarize(data), getWidgets(data)]);
+      const layoutSuggestion = await openai.createChatCompletion({
+        model: "gpt-3.5-turbo-0613",
+        messages: [
+          {"role": "system", "content": "You are an assistant that designs widget layouts for a service that presents daily briefings to users based on their emails, calendar events, and more. Based on the user's data (emails, calendar events, etc.), you design a widget layout based on the most important items and things the user should know. You have access to a function to present the widgets that you call by passing the list of widgets. The order of the widgets is sorted by importance, with the most important widget first. You can also define the size of a widget; a larger widget for more important items is probably a good idea. Only include each widget type once, including variants. Do not include a widget and its large version at the same time, though not all widgets have to be included. Each widget's normal version takes up 1 space, their large versions take up 2 spaces, and their xlarge versions take up 3 spaces. The maximum number of spaces is 8, though if you use 6 or less then it will be presented in a smaller form. Try not to use too many xlarges unless it is very important, as they take up a lot of space. Also, try to leave 1 or 2 spaces for the chatbot, 2 is better, but 1 is fine."},
+          {"role": "user", "content": `Here is a summary of everything I should know:\n${briefingSummary}\n\nLay out my daily briefing.`},
+        ],
+        functions: [
+          {
+            name: "layout",
+            description: "Lay out the daily briefing.",
+            parameters: {
+              type: "object",
+              properties: {
+                layout: {
+                  type: "array",
+                  items: {
+                    type: "string",
+                    enum: widgets,
+                  },
+                  description: "The ordered list of widgets to display."
+                }
+              }
+            },
+          }
+        ],
+        function_call: {
+          "name": "layout",
+        },
+      });
 
-      // const layoutSuggestion = await openai.createChatCompletion({
-      //   model: "gpt-3.5-turbo-0613",
-      //   messages: [
-      //     {"role": "system", "content": "You are an assistant that designs widget layouts for a service that presents daily briefings to users based on their emails, calendar events, and more. Based on the user's data (emails, calendar events, etc.), you design a widget layout based on the most important items and things the user should know. You have access to a function to present the widgets that you call by passing the list of widgets. The order of the widgets is sorted by importance, with the most important widget first. You can also define the size of a widget; a larger widget for more important items is probably a good idea. Only include each widget type once, including variants. Do not include a widget and its large version at the same time, though not all widgets have to be included. Each widget's normal version takes up 1 space, their large versions take up 2 spaces, and their xlarge versions take up 3 spaces. The maximum number of spaces is 8, though if you use 6 or less then it will be presented in a smaller form. Try not to use too many xlarges unless it is very important, as they take up a lot of space. Also, try to leave 1 or 2 spaces for the chatbot, 2 is better, but 1 is fine."},
-      //     {"role": "user", "content": `Here is a summary of everything I should know:\n${briefingSummary}\n\nLay out my daily briefing.`},
-      //   ],
-      //   functions: [
-      //     {
-      //       name: "layout",
-      //       description: "Lay out the daily briefing.",
-      //       parameters: {
-      //         type: "object",
-      //         properties: {
-      //           layout: {
-      //             type: "array",
-      //             items: {
-      //               type: "string",
-      //               enum: widgets,
-      //             },
-      //             description: "The ordered list of widgets to display."
-      //           }
-      //         }
-      //       },
-      //     }
-      //   ],
-      //   function_call: {
-      //     "name": "layout",
-      //   },
-      // });
+      const rawLayout = JSON.parse(layoutSuggestion.data.choices[0].message.function_call.arguments).layout;
+      // const rawLayout = ["email_reply", "meetings"];  // mockFragment1
+      // const rawLayout = ["email_reply", "meetings", "finance", "shopping", "travel"];  // mock1
+      // const rawLayout = ["email_reply_large", "social_media", "AWS", "shopping"];  // mock2
 
-      // const rawLayout = JSON.parse(layoutSuggestion.data.choices[0].message.function_call.arguments).layout;
-      const rawLayout = ["email_reply", "social_media", "AWS", "shopping"];
       let layout = [];
 
       let totalSpace = 0;
@@ -251,7 +254,12 @@ function App() {
           maxWidth={extended ? 'xl' : 'lg'}
         >
           <Stack sx={{ paddingBottom: '2rem' }} direction="row" alignItems="center" justifyContent="center" spacing={2}>
-            logo goes here
+            <Box sx={{ position: 'absolute', top: '5%', left: '2%' }}>
+              <img src={logo} alt="logo" style={{ width: '3rem', height: '3rem' }} />
+              <Typography variant="h3">
+                Briefly
+              </Typography>
+            </Box>
             <Typography variant="h1">
               Good afternoon, Henry
             </Typography>

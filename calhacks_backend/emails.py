@@ -20,7 +20,7 @@ import time
 
 # If modifying these scopes, delete the file token.json.
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
-SAVE_PATH = '/Users/sunnyjay/Documents/vscode/Hackathon/calhacks/calhacks_backend/emails.csv'
+SAVE_PATH = '/Users/kavlekar/Desktop/Code/Hackathons/calhacks2023/calhacks_backend/emails.csv'
 
 def clean(body):
     cleanedBody = re.sub(r'http\S+', '<link>', body.replace('\r', '').replace('\n', ' ').replace('\t', ''))
@@ -43,7 +43,7 @@ def get_emails(num):
             creds.refresh(Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
-                '/Users/sunnyjay/Documents/vscode/Hackathon/calhacks/calhacks_backend/client_secret_515876991234-nljgbu9v2cs79t9l4l7ot3eevbsbamob.apps.googleusercontent.com.json',
+                '/Users/kavlekar/Desktop/Code/Hackathons/calhacks2023/calhacks_backend/client_secret_515876991234-nljgbu9v2cs79t9l4l7ot3eevbsbamob.apps.googleusercontent.com.json',
                  SCOPES)
             creds = flow.run_local_server(port=0)
         # Save the credentials for the next run
