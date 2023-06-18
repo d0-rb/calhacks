@@ -1,3 +1,4 @@
+import meetings from '../components/meetings';
 import { mockFragment1, mock1, mock2 } from './mocks';
 
 // pull all data needed for briefing from api
@@ -5,7 +6,7 @@ import { mockFragment1, mock1, mock2 } from './mocks';
 export default async function pullData(openai) {
     let data = mockFragment2;
     let categories = {};
-    let calendar = {};
+    let calendar = mock1.meetings;
 
     try {
         // const response = await fetch('http://localhost:8000/categories');
@@ -40,7 +41,15 @@ export default async function pullData(openai) {
 
     try {
         const response = await fetch('http://localhost:8000/calendar');
-        calendar = await response.json();
+        meetings = await response.json();
+
+        for (const [meeting, i] of meetings) {
+            if (i >= calendar.length) {
+                break;
+            } else {
+                calendar[i].name = meeting[1];
+            }
+        }
 
         calendar = {
             meetings: calendar,
